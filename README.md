@@ -55,6 +55,24 @@ Together these four files establish:
 
 ---
 
+## Cognitive Tensor Extension
+The repository may optionally enable a mutable cognitive tensor layer for adaptive agent behavior.
+
+Supporting files:
+- `docs/AGENT_EVOLUTION_WEIGHTS.md`
+- `schemas/agent_tensor_state.schema.json`
+- `examples/agent_tensor_state.example.json`
+- `state/active_agent_tensor_state.json`
+- `scripts/evolve_agent_state.py`
+
+This layer allows agents to:
+- inherit weighted cognitive traits from prior save states
+- reorder build checklists dynamically
+- mutate and add new columns over time
+- preserve a human-aligned ethical floor while evolving
+
+---
+
 ## Working Philosophy
 `Permaculture-Agent` is founded on several principles:
 - human cognition should remain first-class
@@ -116,7 +134,6 @@ A sensible initial sequence is:
 ---
 
 ## Suggested Future Repository Shape
-A likely future shape for the repo is:
 
 ```text
 Permaculture-Agent/
@@ -125,13 +142,12 @@ Permaculture-Agent/
 ├── TEAM_MEMORY.md
 ├── ARCHITECTURE.md
 ├── docs/
+├── schemas/
+├── examples/
+├── state/
 ├── core/
-├── agents/
-├── data/
-├── sim/
-├── ui/
-├── scripts/
-└── tests/
+├── tests/
+└── scripts/
 ```
 
 This is a planning suggestion, not yet a fixed contract.

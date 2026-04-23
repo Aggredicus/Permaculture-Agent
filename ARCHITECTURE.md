@@ -95,12 +95,16 @@ Likely responsibilities:
 - interaction protocols
 - human escalation logic
 - memory integration
+- adaptive behavior priors through the cognitive tensor layer
+- checklist shaping using active tensor state
+- save-state inheritance and mutation policies
 
 Possible future modules:
 - `agents/router`
 - `agents/implementer`
 - `agents/verifier`
 - `agents/specialists`
+- `agents/tensor`
 
 ### Layer 3 — Data and Interchange Layer
 This layer handles persistence and external data movement.
@@ -191,11 +195,10 @@ Permaculture-Agent/
 ├── TEAM_MEMORY.md
 ├── ARCHITECTURE.md
 ├── docs/
+├── schemas/
+├── examples/
+├── state/
 ├── core/
-├── agents/
-├── data/
-├── sim/
-├── ui/
 ├── scripts/
 └── tests/
 ```
@@ -212,11 +215,13 @@ Because the repo is new, use a staged build strategy.
 - define product intent
 - choose runtime stack
 - define core entities
+- establish tensor schema and active state conventions
 
 ### Stage 2 — Minimum viable reasoning loop
 - create a small domain model
 - create a simple agent workflow
 - support one practical workflow end-to-end
+- allow checklist reweighting from the active tensor state
 
 ### Stage 3 — Data + interface grounding
 - add import/export formats
@@ -227,6 +232,7 @@ Because the repo is new, use a staged build strategy.
 - add scenario analysis
 - add temporal reasoning
 - add more specialized ecological logic
+- refine tensor evolution and multi-parent inheritance if useful
 
 ---
 

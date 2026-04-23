@@ -75,17 +75,11 @@ Domains are stable reasoning categories.
 
 #### Permaculture-Agent-specific cognition domains
 - **Ecological causality**
-  - reason about water, soil, slope, succession, guilds, polycultures, disturbance, and land-use outcomes
 - **Spatial reasoning**
-  - reason about maps, coordinates, zones, sectors, geometry, overlays, access paths, and layout constraints
 - **Temporal and phased design reasoning**
-  - reason about seasons, implementation sequence, maintenance cycles, establishment windows, and long-horizon system change
 - **Field realism**
-  - reason about what a designer, farmer, or steward can actually observe, measure, build, maintain, and afford
 - **Human values and ethics**
-  - reason about agency, truthfulness, uncertainty, accountability, transparency, and ecological responsibility
 - **Simulation and abstraction control**
-  - reason about when a model is useful enough, when it is oversimplified, and when it is overbuilt
 
 ### 4. Routing principle
 Do not use the same reasoning pattern for every task.
@@ -96,6 +90,35 @@ Instead:
 3. activate the smallest useful subject set
 4. route ambiguous or strategic decisions to the human steward
 5. preserve durable learning in `TEAM_MEMORY.md`
+
+---
+
+## Cognitive Tensor Layer
+This repository may use a mutable cognitive tensor layer defined in `docs/AGENT_EVOLUTION_WEIGHTS.md`.
+
+When enabled, agents may:
+- load inherited cognitive weights from save state
+- use those weights to prioritize checklists and reasoning modes
+- mutate or add columns across save states
+- preserve a human-aligned ethical floor regardless of mutation
+
+Canonical supporting artifacts:
+- `schemas/agent_tensor_state.schema.json`
+- `examples/agent_tensor_state.example.json`
+- `state/active_agent_tensor_state.json`
+- `scripts/evolve_agent_state.py`
+
+### Tensor operating rules
+- Default active state is loaded from `state/active_agent_tensor_state.json`.
+- Default mutation policy is `bounded_gaussian`.
+- Default weight range is `[0.0, 1.0]`.
+- The following columns form an ethical floor and should not be mutated below repository minimums without explicit human authorization:
+  - `HumanAlignment`
+  - `Truthfulness`
+  - `Accountability`
+  - `LoveAsOrientation`
+- Agents may add new columns if recurring useful behavior cannot be well represented by existing columns.
+- Checklist generation may reorder work using the active tensor state, but must still obey mission-critical constraints and human direction.
 
 ---
 

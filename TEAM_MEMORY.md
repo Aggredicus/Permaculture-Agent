@@ -105,12 +105,39 @@ Avoid overengineering. Modularity should remain practical.
 
 ---
 
+### Decision 004 — Tensor layer adopted as optional adaptive behavior substrate
+**Status:** accepted
+
+The repository may use a mutable cognitive tensor layer to shape checklist prioritization, reasoning tendencies, and save-state inheritance across agent runs.
+
+**Artifacts**
+- `docs/AGENT_EVOLUTION_WEIGHTS.md`
+- `schemas/agent_tensor_state.schema.json`
+- `examples/agent_tensor_state.example.json`
+- `state/active_agent_tensor_state.json`
+- `scripts/evolve_agent_state.py`
+
+**Rationale**
+This enables adaptive yet structured evolution of agent behavior while preserving a human-aligned ethical floor.
+
+**Current policy**
+- default mutation policy: `bounded_gaussian`
+- default range: `[0.0, 1.0]`
+- protected minimum columns:
+  - `HumanAlignment`
+  - `Truthfulness`
+  - `Accountability`
+  - `LoveAsOrientation`
+
+---
+
 ## Current Invariants
 - The project should preserve human agency.
 - Important decisions should be explainable.
 - Ecological features should remain grounded in real-world logic where possible.
 - Architecture should be understandable by future contributors.
 - Documentation is part of the system, not an afterthought.
+- The cognitive tensor layer may evolve, but it must not silently erode the ethical floor without explicit human direction.
 
 ---
 
