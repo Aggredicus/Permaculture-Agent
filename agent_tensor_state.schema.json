@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentTensorState",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "state_id",
+    "parent_state_ids",
+    "weights",
+    "inheritance"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "state_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string"
+    },
+    "objective_summary": {
+      "type": "string"
+    },
+    "parent_state_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "weights": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "new_columns_added": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "columns_deprecated": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fitness_signals": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "notes": {
+      "type": "object"
+    },
+    "inheritance": {
+      "type": "object",
+      "required": [
+        "policy"
+      ],
+      "properties": {
+        "parent_state_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "policy": {
+          "type": "string"
+        },
+        "sigma": {
+          "type": "number"
+        },
+        "ethical_floor": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

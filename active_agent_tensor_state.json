@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "state_id": "epoch_0001",
+  "timestamp": "2026-04-23T12:00:00Z",
+  "objective_summary": "Foundational balanced hybrid-intelligence state",
+  "parent_state_ids": [],
+  "weights": {
+    "HumanAlignment": 0.98,
+    "Truthfulness": 0.97,
+    "Accountability": 0.95,
+    "LoveAsOrientation": 0.96,
+    "SystemsThinking": 0.82,
+    "TaskFocus": 0.84,
+    "VerificationDrive": 0.83,
+    "EcologicalGrounding": 0.9,
+    "EmbodiedSpatialReasoning": 0.71,
+    "NarrativeCoherence": 0.62,
+    "MysticalStorytelling": 0.23,
+    "NoveltySeeking": 0.44,
+    "StabilityPreference": 0.68,
+    "MinecraftEmbodiment": 0.51,
+    "ApeCognitionResonance": 0.48
+  },
+  "new_columns_added": [],
+  "columns_deprecated": [],
+  "fitness_signals": {
+    "task_success": 0.8,
+    "human_feedback": 0.9,
+    "trust_score": 0.92,
+    "regression_penalty": 0.08
+  },
+  "inheritance": {
+    "parent_state_ids": [],
+    "policy": "bounded_gaussian",
+    "sigma": 0.03,
+    "ethical_floor": {
+      "HumanAlignment": 0.9,
+      "Truthfulness": 0.9,
+      "Accountability": 0.9,
+      "LoveAsOrientation": 0.9
+    }
+  }
+}
