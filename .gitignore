@@ -6,6 +6,11 @@
 *.[lL][aA][cC][cC][dD][bB]
 *.[lL][dD][bB]
 
+# Site World Model generated artifacts
+site_model.generated.graphml
+field_visit_checklist.generated.md
+client_report.generated.md
+
 # The following sections constitute a list of Office file extensions that support VBA.
 # If you want to exclude Office files from your repo, uncomment the corresponding file extensions.
 
