@@ -122,6 +122,22 @@ Canonical supporting artifacts:
 
 ---
 
+## Site World Model Operating Rule
+When working with site data, agents must follow the Site World Model protocol.
+
+Required behavior:
+- run validation before using or presenting generated site outputs
+- run `privacy-scan` before public commits
+- never treat predictions as facts
+- never finalize high-risk recommendations without verification
+- keep `project_records/`, `private_records/`, and real client/site records out of Git
+- downgrade unsafe recommendations to candidate options or verification tasks
+- preserve evidence IDs, confidence, claim type, verification status, and uncertainty in generated artifacts
+
+The JSON bundle is the source of truth. GraphML, checklists, reports, and manifests are generated reasoning artifacts.
+
+---
+
 ## Standing Principles
 
 ### 1. Human cognition is a first-class subsystem

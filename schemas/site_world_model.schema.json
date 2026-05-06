@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Aggredicus/Permaculture-Agent/schemas/site_world_model.schema.json",
+  "title": "JEPA-Inspired Site World Model Bundle",
+  "type": "object",
+  "required": ["project", "observations", "predictions", "risks", "verification_tasks", "interventions", "design_scenarios"],
+  "properties": {
+    "project": {"type": "object", "required": ["project_id", "project_name", "privacy_status"]},
+    "observations": {"type": "array", "items": {"$ref": "#/$defs/common_claim"}},
+    "predictions": {"type": "array", "items": {"$ref": "#/$defs/prediction"}},
+    "risks": {"type": "array", "items": {"$ref": "#/$defs/risk"}},
+    "verification_tasks": {"type": "array", "items": {"$ref": "#/$defs/verification_task"}},
+    "interventions": {"type": "array", "items": {"$ref": "#/$defs/intervention"}},
+    "design_scenarios": {"type": "array", "items": {"$ref": "#/$defs/design_scenario"}}
+  },
+  "$defs": {
+    "confidence": {"type": "string", "enum": ["high", "medium", "low", "unknown"]},
+    "verification_status": {"type": "string", "enum": ["not_required", "pending", "verified", "contradicted", "revised"]},
+    "claim_type": {"type": "string", "enum": ["observed_fact", "client_reported_fact", "map_interpreted_feature", "image_interpreted_feature", "inferred_condition", "prediction", "design_candidate", "design_recommendation", "risk", "verification_task", "assumption", "unknown", "field_verified_fact", "contradicted_prediction", "revised_prediction"]},
+    "common_claim": {
+      "type": "object",
+      "required": ["id", "claim_type", "summary", "source", "confidence", "verification_status"],
+      "properties": {
+        "id": {"type": "string"},
+        "claim_type": {"$ref": "#/$defs/claim_type"},
+        "summary": {"type": "string"},
+        "source": {"type": "string"},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "confidence": {"$ref": "#/$defs/confidence"},
+        "verification_status": {"$ref": "#/$defs/verification_status"},
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "prediction": {
+      "allOf": [
+        {"$ref": "#/$defs/common_claim"},
+        {"type": "object", "required": ["based_on", "risk_if_wrong", "verification_required", "verification_tasks"]}
+      ]
+    },
+    "risk": {
+      "allOf": [
+        {"$ref": "#/$defs/common_claim"},
+        {"type": "object", "required": ["severity", "likelihood", "mitigation"]}
+      ]
+    },
+    "verification_task": {
+      "allOf": [
+        {"$ref": "#/$defs/common_claim"},
+        {"type": "object", "required": ["priority", "method", "status"]}
+      ]
+    },
+    "intervention": {
+      "allOf": [
+        {"$ref": "#/$defs/common_claim"},
+        {"type": "object", "required": ["status", "supported_by", "benefits", "risks", "required_verification"]}
+      ]
+    },
+    "design_scenario": {
+      "type": "object",
+      "required": ["id", "name", "summary", "benefits", "risks", "unknowns", "verification_needed", "confidence"]
+    }
+  }
+}

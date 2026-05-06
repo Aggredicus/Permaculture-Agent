@@ -2,9 +2,38 @@
 
 **Repository:** `Aggredicus/Permaculture-Agent`  
 **Primary HTML app:** `Permaculture_Project_Control_Record_v2_0.html`  
-**Recommended file path:** `docs/HTML_FORM_INSTRUCTIONS.md`  
-**Document version:** `1.0.0`  
+**Document version:** `1.1.0-public-safe`  
 **Audience:** Human designers, AI coding agents, project-control agents, documentation agents, and future GraphML/state-management agents.
+
+---
+
+## Public Safety Notice
+
+This repository is public-facing. Example client records, filenames, manifests, reports, and GraphML state must use anonymized placeholder data only.
+
+Do not commit:
+
+- real client names
+- real site addresses
+- phone numbers
+- email addresses
+- parcel IDs
+- precise private locations
+- private contract amounts tied to identifiable people
+- unredacted form exports
+- photographs or map screenshots that reveal a private property without permission
+
+Use placeholders such as:
+
+```text
+Client A
+Example Homestead Project
+ANON-2026-001
+Example Site Address
+forms/anon_2026_001_phase_1_scope_freeze_v2_0_0_2026-05-05.json
+```
+
+Agents must treat any real personal or property identifier as a stop condition for public commits.
 
 ---
 
@@ -12,20 +41,18 @@
 
 This document explains how humans and agents should use the **Permaculture Project Control Record HTML form system** inside the `Permaculture-Agent` repository.
 
-The repository exists to support hybrid human + AI permaculture and regenerative design work through human ecological judgment, AI-assisted reasoning, durable project memory, modular architecture, and ethically governed collaboration. The HTML form system is now the first concrete project-control workflow in that larger mission.
-
 The HTML form is a portable, local-first project documentation interface. It produces structured JSON records that can later be reviewed by humans, interpreted by agents, converted into GraphML, and used to generate reports, task lists, risk warnings, scope summaries, maintenance handoffs, and future-phase recommendations.
 
 The core workflow is:
 
 ```text
-Human fills HTML form
-→ Human saves JSON record
-→ Agent reads JSON
-→ Agent validates required fields and evidence status
-→ Agent updates GraphML project state
-→ Agent produces summaries, warnings, reports, or next actions
-→ Human reviews and approves any real-world decision
+Human fills HTML form locally
+-> Human saves JSON record locally
+-> Agent reads approved/anonymized JSON
+-> Agent validates required fields and evidence status
+-> Agent updates GraphML project state
+-> Agent produces summaries, warnings, reports, or next actions
+-> Human reviews and approves any real-world decision
 ```
 
 ---
@@ -34,39 +61,7 @@ Human fills HTML form
 
 `Permaculture-Agent` is a hybrid-intelligence software system for permaculture and regenerative design. Its root documents define mission, architecture, behavior, memory, and collaboration expectations.
 
-The current repository includes foundational docs and the HTML app, including `README.md`, `AGENT.md`, `TEAM_MEMORY.md`, `ARCHITECTURE.md`, `ARCHITECTURE_MAP.md`, `AGENT_EVOLUTION_WEIGHTS.md`, and `Permaculture_Project_Control_Record_v2_0.html`.
-
-The HTML form app should be treated as an early practical implementation slice of the repo’s broader mission: a real field-ready workflow that turns permaculture project information into structured memory.
-
-Recommended placement:
-
-```text
-Permaculture-Agent/
-├── README.md
-├── AGENT.md
-├── TEAM_MEMORY.md
-├── ARCHITECTURE.md
-├── Permaculture_Project_Control_Record_v2_0.html
-├── docs/
-│   └── HTML_FORM_INSTRUCTIONS.md
-├── examples/
-│   └── project_control_record/
-│       ├── sample_intake.json
-│       ├── sample_site_observation.json
-│       └── sample_scope_freeze.json
-├── schemas/
-│   └── project_control_record.schema.json
-├── graph/
-│   ├── project_state.graphml
-│   ├── project_nodes.csv
-│   ├── project_edges.csv
-│   └── project_manifest.json
-└── scripts/
-    ├── ingest_form_json.py
-    ├── build_project_graph.py
-    ├── validate_project_graph.py
-    └── summarize_project_state.py
-```
+The HTML form app should be treated as an early practical implementation slice of the broader mission: a field-ready workflow that turns permaculture project information into structured memory while preserving human review and ecological caution.
 
 ---
 
@@ -112,29 +107,27 @@ Agents must treat form data as **project evidence**, not guaranteed truth.
 
 ## 5. Core Human Use Pattern
 
-Humans should use the form system as a project-control workflow.
-
 Recommended sequence for a fast design/install project:
 
 ```text
 01 Intake
-→ 02 Site Observation
-→ 03 Base Map Verification
-→ 04 Risk Register
-→ 05 Design Decision Log
-→ 06 Scope Freeze
-→ 07 Materials Specification
-→ 08 Installation Work Order
-→ 09 Daily Installation Record
-→ 10 Deviation Log, if needed
-→ 11 Change Order, if needed
-→ 12 Final Walkthrough
-→ 13 Maintenance Handoff
-→ 14 30-Day Follow-Up
-→ 15 Closeout Report
+-> 02 Site Observation
+-> 03 Base Map Verification
+-> 04 Risk Register
+-> 05 Design Decision Log
+-> 06 Scope Freeze
+-> 07 Materials Specification
+-> 08 Installation Work Order
+-> 09 Daily Installation Record
+-> 10 Deviation Log, if needed
+-> 11 Change Order, if needed
+-> 12 Final Walkthrough
+-> 13 Maintenance Handoff
+-> 14 30-Day Follow-Up
+-> 15 Closeout Report
 ```
 
-For small projects, not every form must be completed immediately. However, before installation begins, the recommended minimum record is:
+For small projects, not every form must be completed immediately. Before installation begins, the recommended minimum record is:
 
 ```text
 01 Intake
@@ -161,19 +154,19 @@ When a user saves a form, the HTML app exports a JSON object with this general s
   "form_slug": "phase_1_scope_freeze",
   "saved_at": "2026-05-05T12:00:00.000Z",
   "values": {
-    "project_name": "Frank Kruzel Swale Project",
-    "project_id": "KRZL-2026-001",
+    "project_name": "Example Homestead Project",
+    "project_id": "ANON-2026-001",
     "document_name": "phase_1_scope_freeze",
     "document_version": "2.0.0",
-    "client_name": "Frank Kruzel",
-    "prepared_by": "Dillon / Permaculture Works LLC",
-    "project_address": "12955 3rd Ave NW, Grand Rapids, MI 49544",
+    "client_name": "Client A",
+    "prepared_by": "Designer / Organization",
+    "project_address": "Example Site Address",
     "date_prepared": "2026-05-05"
   }
 }
 ```
 
-Agents must always inspect `app`, `app_version`, `form_key`, `form_title`, `form_slug`, `saved_at`, `values.project_name`, `values.project_id`, `values.document_name`, `values.document_version`, `values.client_name`, `values.project_address`, and `values.date_prepared`.
+Agents must inspect `app`, `app_version`, `form_key`, `form_title`, `form_slug`, `saved_at`, `values.project_name`, `values.project_id`, `values.document_name`, `values.document_version`, `values.client_name`, `values.project_address`, and `values.date_prepared`.
 
 If any are missing, agents should flag the record as incomplete rather than inventing missing metadata.
 
@@ -187,18 +180,17 @@ The HTML app automatically generates JSON filenames using:
 ProjectName_DocumentName_vVersion_YYYY-MM-DD.json
 ```
 
-Example:
+Public-safe example:
 
 ```text
-frank_kruzel_swale_project_phase_1_scope_freeze_v2_0_0_2026-05-05.json
+anon_2026_001_phase_1_scope_freeze_v2_0_0_2026-05-05.json
 ```
 
-Humans should use stable project names and document names.
-
-Good names:
+Good public-safe names:
 
 ```text
-frank_kruzel_swale_project
+example_homestead_project
+anon_2026_001
 phase_1_scope_freeze
 site_observation_record
 ```
@@ -241,7 +233,7 @@ Examples:
 | Form entry | Proper interpretation |
 |---|---|
 | Standing water observed near west edge | Observed site evidence |
-| Client says water pools here every spring | Client-reported evidence |
+| Client reports water pools here every spring | Client-reported evidence |
 | Likely clay soil | Assumption unless tested |
 | Utility locate complete | Verified only if documented |
 | Phase 1 excludes pond excavation | Approved scope exclusion if signed/approved |
@@ -257,7 +249,7 @@ The JSON records are form-level documents. The GraphML model is the agent-readab
 
 The GraphML should represent project identity, client/property metadata, goals, site observations, constraints, risks, decisions, approved scope, exclusions, assumptions, materials, work areas, tasks, quality checkpoints, deviations, change orders, maintenance responsibilities, follow-up findings, and closeout lessons.
 
-The GraphML should not merely store raw form JSON as one giant string. Instead, agents should extract typed nodes and typed relationships.
+The GraphML should not store raw form JSON as one giant string. Agents should extract typed nodes and typed relationships.
 
 ---
 
@@ -387,182 +379,80 @@ notes
 ## 12. JSON-to-GraphML Mapping Guide by Form
 
 ### 01 Project Intake & Client Goals
-
 Create or update `Project`, `Client`, `Property`, `Goal`, `SuccessCriterion`, `BudgetConstraint`, `TimelineConstraint`, `MaintenanceCapacity`, `DesiredOutput`, and `KnownConstraint` nodes.
 
-Useful edges include `Project HAS_CLIENT Client`, `Project LOCATED_AT Property`, `Project HAS_GOAL Goal`, `Project HAS_SUCCESS_CRITERION SuccessCriterion`, and `Project LIMITED_BY BudgetConstraint`.
-
-Agent tasks: summarize client goals, identify conflicts among goals, identify missing intake data, recommend likely service level, and prepare a site visit agenda.
-
 ### 02 Site Observation Record
-
 Create or update `Observation`, `PhotoEvidence`, `WaterFlow`, `WetArea`, `DryArea`, `SoilCondition`, `Microclimate`, `VegetationFeature`, `WildlifePressure`, `InfrastructureFeature`, `NoDigZone`, and `UtilityConcern` nodes.
 
-Useful edges include `Observation DOCUMENTS Property`, `PhotoEvidence SUPPORTS Observation`, `WaterFlow AFFECTS WorkArea`, `WetArea CONSTRAINS WorkArea`, and `NoDigZone EXCLUDES WorkArea`.
-
-Agent tasks: produce site evidence summary, list unresolved site questions, flag utility/no-dig issues, identify likely design zones, and recommend risk register updates.
-
 ### 03 Base Map Verification Checklist
-
 Create or update `MapSource`, `MapLimitation`, `BoundaryStatus`, `ScaleStatus`, `SlopeConfidence`, `SuitabilityFinding`, and `RequiredCorrection` nodes.
 
-Useful edges include `MapSource SUPPORTS DesignDecision`, `MapLimitation REDUCES_CONFIDENCE_IN DesignDecision`, and `RequiredCorrection MUST_PRECEDE FieldLayout`.
-
-Agent tasks: determine map suitability, warn when a map is not suitable for earthwork planning, suggest required corrections, and prevent overuse of low-confidence maps.
-
 ### 04 Constraints & Risk Register
-
 Create or update `Constraint`, `Risk`, `ControlMeasure`, `Owner`, `GoNoGoConcern`, and `RequiredControl` nodes.
 
-Useful edges include `Constraint CREATES_RISK Risk`, `Risk MITIGATED_BY ControlMeasure`, `Risk ASSIGNED_TO Owner`, `GoNoGoConcern BLOCKS InstallationPhase`, and `RequiredControl MUST_PRECEDE Task`.
-
-Agent tasks: generate open risk summary, block unsafe work orders, identify missing controls, and prepare a pre-install go/no-go checklist.
-
 ### 05 Design Decision Log
-
 Create or update `DesignDecision`, `Alternative`, `Evidence`, `Tradeoff`, `Approval`, and `FuturePhaseDecision` nodes.
 
-Useful edges include `DesignDecision BASED_ON Evidence`, `DesignDecision REJECTED_ALTERNATIVE Alternative`, `DesignDecision HAS_TRADEOFF Tradeoff`, and `Approval AUTHORIZES DesignDecision`.
-
-Agent tasks: explain why decisions were made, generate client-friendly decision summaries, identify decisions lacking evidence or approval, and preserve alternatives for future phases.
-
 ### 06 Phase 1 Scope Freeze Form
-
 Create or update `ScopeFreeze`, `ProjectPhase`, `IncludedArea`, `IncludedWork`, `Quantity`, `InstallationMethod`, `EarthworkLimit`, `Exclusion`, `Assumption`, `ClientResponsibility`, `ChangeOrderRule`, `FuturePhaseIdea`, and `Approval` nodes.
 
-Useful edges include `ScopeFreeze APPROVES IncludedWork`, `ScopeFreeze INCLUDES IncludedArea`, `ScopeFreeze EXCLUDES Exclusion`, `Assumption SUPPORTS ScopeFreeze`, and `ClientResponsibility ASSIGNED_TO Client`.
-
-Agent tasks: enforce included/excluded work, generate scope summary, generate client read-back script, detect scope creep, and route new work to change order.
-
 ### 07 Plant & Materials Specification Sheet
-
 Create or update `Plant`, `Material`, `Supplier`, `ProtectionMaterial`, `SeedMix`, `ProcurementStatus`, `SubstitutionRule`, and `InstalledInventory` nodes.
 
-Useful edges include `Plant SOURCED_FROM Supplier`, `Plant REQUIRES ProtectionMaterial`, `Material USED_FOR IncludedWork`, and `SeedMix USED_FOR WorkArea`.
-
-Agent tasks: create shopping lists, check plant/material completeness, flag missing protection materials, suggest approved substitutions, and compare materials against scope.
-
 ### 08 Installation Work Order
-
 Create or update `Task`, `Tool`, `CrewMember`, `QualityCheckpoint`, `SafetyNote`, `WeatherConstraint`, `LayoutReference`, and `MaterialStagingArea` nodes.
 
-Useful edges include `Task ASSIGNED_TO CrewMember`, `Task REQUIRES Tool`, `Task HAS_QUALITY_CHECKPOINT QualityCheckpoint`, `WeatherConstraint CONSTRAINS Task`, and `SafetyNote CONSTRAINS Task`.
-
-Agent tasks: generate daily crew briefings, sequence tasks, identify blocked tasks, check quality checkpoints, and prepare field SOPs.
-
 ### 09 Daily Installation Record
-
 Create or update `InstallationDay`, `CompletedTask`, `MaterialUsed`, `PlantInstalled`, `Issue`, `ClientApproval`, `PhotoEvidence`, and `NextDayPriority` nodes.
 
-Useful edges include `InstallationDay COMPLETED Task`, `Issue OBSERVED_DURING InstallationDay`, `ClientApproval AUTHORIZES FieldAdjustment`, and `PhotoEvidence SUPPORTS CompletedTask`.
-
-Agent tasks: summarize daily progress, compare completed work to scope, identify deviations needing documentation, and generate next-day priorities.
-
 ### 10 Deviation / Field Change Log
-
 Create or update `Deviation`, `FieldChange`, `CorrectiveAction`, `CostImpact`, `ScheduleImpact`, `RiskImpact`, and `Approval` nodes.
 
-Useful edges include `Deviation AFFECTS ScopeFreeze`, `Deviation REQUIRES CorrectiveAction`, `Deviation MAY_REQUIRE ChangeOrder`, and `CorrectiveAction MITIGATES Deviation`.
-
-Agent tasks: determine whether change order is needed, summarize field changes, protect the audit trail, and update graph state without erasing original scope.
-
 ### 11 Change Order Form
-
 Create or update `ChangeOrder`, `AddedWork`, `RemovedWork`, `AddedMaterial`, `AddedLabor`, `CostImpact`, `ScheduleImpact`, `RiskImpact`, and `Approval` nodes.
 
-Useful edges include `ChangeOrder MODIFIES ScopeFreeze`, `ChangeOrder ADDS AddedWork`, `ChangeOrder REMOVES RemovedWork`, and `Approval AUTHORIZES ChangeOrder`.
-
-Agent tasks: update approved project scope, generate change summaries, prevent unapproved additions, and track cost/schedule impacts.
-
 ### 12 Final Walkthrough & Punch List
-
 Create or update `Walkthrough`, `CompletionChecklistItem`, `PunchListItem`, `ClientAcceptance`, `RemainingConcern`, and `FollowUpAppointment` nodes.
 
-Useful edges include `PunchListItem REMAINS_AFTER InstallationPhase`, `ClientAcceptance AUTHORIZES Closeout`, and `FollowUpAppointment FOLLOWS Walkthrough`.
-
-Agent tasks: create punch list summaries, verify handoff readiness, prepare follow-up schedules, and identify incomplete work.
-
 ### 13 Client Maintenance Handoff
-
 Create or update `MaintenanceInstruction`, `WateringSchedule`, `WeedingInstruction`, `MulchCareInstruction`, `NoMowRule`, `ProtectionCheck`, `WarningSign`, `ClientResponsibility`, and `FollowUpDate` nodes.
 
-Useful edges include `MaintenanceInstruction ASSIGNED_TO Client`, `WarningSign TRIGGERS ContactDesigner`, and `ProtectionCheck SUPPORTS PlantSurvival`.
-
-Agent tasks: generate client care sheets, create reminder schedule text, identify client responsibilities, and avoid plant survival overpromising.
-
 ### 14 30-Day Follow-Up Inspection
-
 Create or update `FollowUpInspection`, `InspectionFinding`, `PlantSurvivalStatus`, `MoistureCondition`, `MulchCondition`, `WeedPressure`, `AnimalDamage`, `CorrectiveAction`, `ReplacementRecommendation`, and `FuturePhaseOpportunity` nodes.
 
-Useful edges include `InspectionFinding OBSERVED PlantingZone`, `InspectionFinding TRIGGERS CorrectiveAction`, and `FuturePhaseOpportunity DERIVED_FROM InspectionFinding`.
-
-Agent tasks: summarize establishment status, recommend corrections, identify future sales opportunities, and compare client care compliance to handoff instructions.
-
 ### 15 Project Closeout Report
-
 Create or update `CloseoutReport`, `CompletedScope`, `FinalDeliverable`, `FinalInventorySummary`, `OpenItem`, `ClientFeedback`, `LessonLearned`, `FuturePhaseRecommendation`, and `ArchiveItem` nodes.
-
-Useful edges include `CloseoutReport CLOSES ProjectPhase`, `LessonLearned IMPROVES FutureProjectTemplate`, and `ArchiveItem SUPPORTS ProjectRecord`.
-
-Agent tasks: generate final project summaries, extract lessons learned, identify template improvements, create portfolio/case study drafts, and prepare future phase roadmaps.
 
 ---
 
 ## 13. Agent Roles
 
 ### Project Record Agent
-
 Maintains JSON records, project manifests, GraphML state, source metadata, missing-form detection, and project-state summaries.
 
-Must not invent missing field values, overwrite prior versions without permission, or approve real-world decisions.
-
 ### Intake Agent
-
 Summarizes client goals, identifies decision-makers, identifies scope risks, prepares site visit agendas, and recommends missing intake questions.
 
-Must not convert vague goals into fixed scope, assume budget approval, or promise feasibility.
-
 ### Site Analysis Agent
-
 Summarizes site observations, extracts land features, identifies evidence gaps, and links observations to risks and design options.
 
-Must not treat visual observations as survey-grade, make wetland/legal/engineering determinations, or assume drainage direction without evidence.
-
 ### Risk and Scope Control Agent
-
 Reads risk register and scope freeze records, detects blocked tasks, enforces exclusions, routes new work to change order, and produces go/no-go checklists.
 
-Must not allow installation work that conflicts with open high-risk blockers, ignore exclusions, or approve earthwork without required verification.
-
 ### Procurement Agent
-
 Reads materials specifications, checks plant/material completeness, flags missing protection systems, creates shopping lists, and proposes substitutions for human approval.
 
-Must not choose invasive or risky species without review, substitute plants without preserving design function, or promise availability/survival.
-
 ### Installation Agent
-
 Reads work orders, sequences tasks, prepares crew briefings, checks quality checkpoints, and compares daily records to approved scope.
 
-Must not add work beyond scope, ignore risk blockers, or create unsafe instructions.
-
 ### Deviation and Change Control Agent
-
 Reviews daily records and deviation logs, identifies changes needing change orders, summarizes cost/schedule/risk impacts, and preserves original scope history.
 
-Must not treat undocumented field changes as approved or modify scope without approval metadata.
-
 ### Handoff and Follow-Up Agent
-
 Generates maintenance instructions, summarizes client responsibilities, prepares follow-up inspection summaries, and recommends corrective actions.
 
-Must not guarantee plant survival, blame clients without evidence, or diagnose complex plant disease without human/expert review.
-
 ### Closeout and Learning Agent
-
 Creates final summaries, extracts lessons learned, identifies future-phase opportunities, and updates templates/team memory when approved.
-
-Must not publish client details without permission, alter project history, or overstate outcomes.
 
 ---
 
@@ -585,6 +475,7 @@ Before using a JSON file, agents should check:
 [ ] required project fields are not blank
 [ ] source filename is preserved
 [ ] record is not superseded by a newer version
+[ ] public-facing records are anonymized
 ```
 
 Before generating installation instructions, agents should check:
@@ -603,27 +494,27 @@ Before generating installation instructions, agents should check:
 
 ---
 
-## 15. Suggested Project Manifest
+## 15. Suggested Public-Safe Project Manifest
 
 A project-level manifest should track form files and graph state.
 
 ```json
 {
-  "project_id": "KRZL-2026-001",
-  "project_name": "Frank Kruzel Swale Project",
-  "client": "Frank Kruzel",
+  "project_id": "ANON-2026-001",
+  "project_name": "Example Homestead Project",
+  "client": "Client A",
   "current_phase": "Phase 1 Layout",
   "graphml_file": "graph/project_state.graphml",
   "forms": [
     {
       "form_key": "intake",
-      "file": "forms/frank_kruzel_project_intake_client_goals_v2_0_0_2026-05-05.json",
+      "file": "forms/anon_2026_001_project_intake_client_goals_v2_0_0_2026-05-05.json",
       "version": "2.0.0",
       "status": "complete"
     },
     {
       "form_key": "siteObservation",
-      "file": "forms/frank_kruzel_site_observation_record_v2_0_0_2026-05-05.json",
+      "file": "forms/anon_2026_001_site_observation_record_v2_0_0_2026-05-05.json",
       "version": "2.0.0",
       "status": "complete"
     }
@@ -643,26 +534,24 @@ Agents should update the manifest whenever they ingest a new JSON file or genera
 A good local workflow is:
 
 ```text
-1. Open Permaculture_Project_Control_Record_v2_0.html
+1. Open Permaculture_Project_Control_Record_v2_0.html locally
 2. Fill the relevant form
-3. Save JSON to forms/<project_id>/
-4. Run scripts/ingest_form_json.py
-5. Update graph/project_state.graphml
-6. Run scripts/validate_project_graph.py
-7. Generate reports:
-   - project_summary.md
-   - open_risks.md
-   - next_actions.md
-8. Human reviews generated outputs
-9. Human approves any real-world actions
-10. Agent commits only approved documentation/code changes
+3. Save JSON to a private local project folder
+4. Anonymize before public commit
+5. Run scripts/ingest_form_json.py when available
+6. Update graph/project_state.graphml when available
+7. Run validation checks
+8. Generate reports
+9. Human reviews generated outputs
+10. Human approves any real-world actions
+11. Agent commits only approved, anonymized documentation/code changes
 ```
 
-Recommended project folder:
+Recommended private project folder:
 
 ```text
 project_records/
-└── KRZL-2026-001/
+└── ANON-2026-001/
     ├── forms/
     ├── graph/
     │   ├── project_state.graphml
@@ -701,6 +590,7 @@ Agents must follow these rules:
 10. Do not recommend invasive, illegal, or ecologically risky species.
 11. Do not overwrite previous records without preserving version history.
 12. Do not hide uncertainty.
+13. Do not commit real client/property identifiers to public branches.
 
 ---
 
@@ -758,20 +648,21 @@ When ingesting a new JSON form:
 11. Run validation checks.
 12. Generate a human-readable change summary.
 13. Ask for human approval if real-world decisions are affected.
+14. Confirm anonymization before public commit.
 ```
 
 ---
 
 ## 21. Example Agent Summary Format
 
-After ingesting a form, agents should report:
+After ingesting a public-safe example form, agents should report:
 
 ```markdown
 ## Ingest Summary
 
-**Source file:** frank_kruzel_phase_1_scope_freeze_v2_0_0_2026-05-05.json  
+**Source file:** anon_2026_001_phase_1_scope_freeze_v2_0_0_2026-05-05.json  
 **Form:** 06 · Phase 1 Scope Freeze Form  
-**Project:** Frank Kruzel Swale Project  
+**Project:** Example Homestead Project  
 **Version:** 2.0.0  
 
 ### Added / Updated Nodes
@@ -818,16 +709,16 @@ The human designer remains the accountable decision-maker.
 
 ## 23. Recommended Next Build Steps
 
-1. Create `docs/HTML_FORM_INSTRUCTIONS.md`.
-2. Create `examples/project_control_record/` with sample JSON exports.
+1. Keep public examples anonymized.
+2. Create `examples/project_control_record/` with public-safe sample JSON exports.
 3. Create `schemas/project_control_record.schema.json`.
 4. Create `scripts/ingest_form_json.py`.
 5. Create `scripts/build_project_graph.py`.
 6. Create `scripts/validate_project_graph.py`.
 7. Create `scripts/summarize_project_state.py`.
 8. Create `graph/project_manifest.example.json`.
-9. Add a short section to `README.md` linking to the HTML app and these instructions.
-10. Add a short section to `AGENT.md` instructing agents to follow this document when working with form JSON or GraphML project state.
+9. Add a short section to `AGENT.md` instructing agents to follow this document when working with form JSON or GraphML project state.
+10. Add a privacy scan/check before public commits.
 
 ---
 
@@ -843,4 +734,4 @@ What is blocked?
 What should happen next?
 ```
 
-Any agent working with this system should preserve those answers clearly.
+Any agent working with this system should preserve those answers clearly while protecting private client and property information.

@@ -131,6 +131,27 @@ This enables adaptive yet structured evolution of agent behavior while preservin
 
 ---
 
+### Decision 005 — Site World Model v1.0 release path
+**Status:** accepted
+
+The repository now treats the JEPA-inspired Site World Model as the first practical evidence-and-verification workflow.
+
+**Decision**
+The Site World Model uses a JSON bundle as the editable source of truth. GraphML, verification checklists, preliminary client reports, and manifests are generated reasoning artifacts. Privacy scanning is required before public commits, and real client/site records belong in ignored private folders rather than public examples.
+
+**Core invariants**
+- Predictions are never facts.
+- Field verification updates model state through verified, contradicted, revised, pending, or not-required statuses.
+- High-risk recommendations must remain candidates or verification tasks until field review supports them.
+- `examples/` is for anonymized public fixtures.
+- `project_records/` and `private_records/` are private local-only working areas.
+- Public commits should pass validation, privacy scan, generated artifact checks, and unit tests.
+
+**Implications**
+Future site-data features should preserve evidence IDs, confidence, claim type, verification status, and uncertainty. New importers or report generators should build on the bundle lifecycle rather than bypass it.
+
+---
+
 ## Current Invariants
 - The project should preserve human agency.
 - Important decisions should be explainable.
@@ -138,6 +159,7 @@ This enables adaptive yet structured evolution of agent behavior while preservin
 - Architecture should be understandable by future contributors.
 - Documentation is part of the system, not an afterthought.
 - The cognitive tensor layer may evolve, but it must not silently erode the ethical floor without explicit human direction.
+- Site World Model outputs must preserve evidence, confidence, verification status, and privacy boundaries.
 
 ---
 
@@ -206,6 +228,7 @@ This is directional guidance, not yet a hard contract.
 - What makes a useful minimum viable permaculture agent?
 - Which tasks are best handled by humans, and which by software?
 - How much simulation fidelity is actually valuable to end users?
+- How should approved/anonymized HTML form exports map into Site World Model bundles?
 
 ---
 
