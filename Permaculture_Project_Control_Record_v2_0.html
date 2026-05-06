@@ -1,438 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Permaculture Works Project Control Record v2.0</title>
 <style>
-:root{
-  --bg:#f5f3ee; --panel:#fff; --ink:#1f2933; --muted:#667085; --line:#d9d3c7;
-  --accent:#486b3f; --accent2:#7a5d2f; --soft:#edf4ea; --warn:#fff7df; --danger:#9b2c2c;
-  --shadow:0 12px 28px rgba(35,45,35,.10); --radius:16px;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at top left,#edf4ea,var(--bg) 34rem);color:var(--ink);line-height:1.5}
-header{background:#22301f;color:white;padding:24px 18px}
-header .wrap{max-width:1220px;margin:0 auto}
-h1,h2,h3{line-height:1.15;margin:0 0 12px}
-h1{font-size:clamp(1.6rem,4vw,2.65rem)}
-h2{font-size:1.5rem}
-h3{font-size:1.08rem;color:#334155}
-.subtitle{max-width:900px;color:#dbe7d7;margin:0}
-main{max-width:1220px;margin:0 auto;padding:20px 14px 52px;display:grid;grid-template-columns:292px 1fr;gap:18px}
-nav{position:sticky;top:12px;align-self:start;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;max-height:calc(100vh - 24px);overflow:auto}
-.nav-title{font-weight:850;margin:4px 6px 10px}
-.nav-button{width:100%;display:block;border:1px solid transparent;background:transparent;color:var(--ink);text-align:left;padding:10px;border-radius:12px;cursor:pointer;font-weight:700;margin-bottom:4px}
-.nav-button small{display:block;color:var(--muted);font-weight:500;margin-top:2px}
-.nav-button.active{background:var(--soft);border-color:#b7d2ad;color:#20391d}
-.workspace{min-width:0}
-.toolbar,.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
-.toolbar{padding:14px;margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
-.toolbar-left,.toolbar-right{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.status{color:var(--muted);font-size:.92rem}
-button,.file-label{border:1px solid #aab4a5;background:white;color:var(--ink);padding:10px 13px;border-radius:12px;font-weight:750;cursor:pointer;font-size:.94rem}
-button.primary{background:var(--accent);border-color:var(--accent);color:white}
-button.secondary{background:#f8fafc}
-button.warn{background:var(--warn);border-color:#dfc46f}
-button.danger{background:#fff5f5;border-color:#f0b4b4;color:var(--danger)}
-input[type=file]{display:none}
-.card{padding:clamp(16px,3vw,26px);margin-bottom:16px}
-.form-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;background:#f8faf7;border:1px solid var(--line);border-radius:14px;padding:14px;margin:14px 0 18px}
-.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-label{display:block;font-weight:760;color:#334155;margin:0 0 5px;font-size:.92rem}
-.hint{color:var(--muted);font-size:.86rem;margin-top:3px}
-input,textarea,select{width:100%;border:1px solid #c9c3b8;border-radius:11px;padding:10px 11px;font:inherit;background:white;color:var(--ink)}
-textarea{min-height:92px;resize:vertical}
-section.form-section{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
-.check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}
-.check{display:flex;gap:8px;align-items:flex-start;border:1px solid #e1dbcf;border-radius:12px;padding:9px;background:#fffefa}
-.check input{width:auto;margin-top:4px}.check span{font-weight:620}
-table{width:100%;border-collapse:collapse;margin:10px 0;border-radius:12px;overflow:hidden}
-th,td{border:1px solid var(--line);padding:8px;vertical-align:top}
-th{background:#eef4eb;text-align:left;font-size:.88rem}
-td input,td textarea,td select{border:1px solid #ded8ce;border-radius:8px;padding:7px;min-height:38px}
-td textarea{min-height:58px}
-.filename-preview{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;background:#162013;color:#e9f5e3;border-radius:12px;padding:10px 12px;overflow-wrap:anywhere;font-size:.9rem;margin-top:8px}
-.print-note{background:#fff9e8;border:1px solid #ead59a;border-radius:14px;padding:12px;margin-bottom:16px}
-.badge{display:inline-block;background:#edf4ea;border:1px solid #b7d2ad;color:#20391d;border-radius:999px;padding:3px 9px;font-size:.82rem;font-weight:750;margin-left:6px}
-.help{background:#f8fafc;border:1px dashed #b8c0cc;border-radius:14px;padding:14px;color:#475569;margin:12px 0}
-.sigline{height:42px;border-bottom:1px solid #777;margin-top:18px}
-@media(max-width:880px){main{grid-template-columns:1fr}nav{position:relative;top:auto;max-height:none}.grid-2,.grid-3,.form-meta,.check-grid{grid-template-columns:1fr}}
-@media print{body{background:white}header,nav,.toolbar,.print-note{display:none!important}main{display:block;padding:0;max-width:none}.card{box-shadow:none;border:none;padding:0}input,textarea,select{border:1px solid #999}.workspace{width:100%}section.form-section{break-inside:avoid}}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:#f5f3ee;color:#1f2933}header{background:#22301f;color:white;padding:24px}main{max-width:1100px;margin:auto;padding:20px;display:grid;grid-template-columns:280px 1fr;gap:16px}nav,.card,.toolbar{background:white;border:1px solid #d9d3c7;border-radius:16px;box-shadow:0 10px 24px #0001}.toolbar{padding:12px;margin-bottom:16px;display:flex;gap:8px;flex-wrap:wrap}.card{padding:20px}button,.file-label{padding:10px 12px;border-radius:10px;border:1px solid #aab4a5;background:white;font-weight:700;cursor:pointer}.primary{background:#486b3f;color:white}.warn{background:#fff7df}.danger{color:#9b2c2c}input[type=file]{display:none}nav{padding:12px;position:sticky;top:12px;align-self:start}.nav-button{display:block;width:100%;text-align:left;margin:3px 0}.active{background:#edf4ea}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{display:block;font-weight:700;margin-top:10px}input,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid #c9c3b8}textarea{min-height:90px}.notice{background:#fff9e8;border:1px solid #ead59a;border-radius:14px;padding:12px;margin-bottom:16px}.file{font-family:monospace;background:#162013;color:#e9f5e3;border-radius:10px;padding:10px;margin-top:12px;overflow-wrap:anywhere}@media(max-width:850px){main{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <h1>Permaculture Works Project Control Record <span class="badge">v2.0</span></h1>
-    <p class="subtitle">A single-file QC-style form system for fast, ethical, high-quality permaculture design and installation. Each form can be saved as a versioned JSON file and loaded later.</p>
-  </div>
-</header>
-
-<main>
-  <nav id="nav"></nav>
-  <div class="workspace">
-    <div class="toolbar">
-      <div class="toolbar-left">
-        <button class="primary" id="saveJsonBtn">Save Current Form as JSON</button>
-        <label class="file-label" for="loadJsonInput">Load JSON</label>
-        <input id="loadJsonInput" type="file" accept=".json,application/json" />
-        <button class="secondary" id="printBtn">Print Current Form</button>
-      </div>
-      <div class="toolbar-right">
-        <button class="warn" id="saveBrowserBtn">Save Draft in Browser</button>
-        <button class="danger" id="clearFormBtn">Clear Current Form</button>
-      </div>
-      <div class="status" id="status">Ready.</div>
-    </div>
-    <div class="print-note">
-      <strong>Versioned naming convention:</strong> exports are automatically named as
-      <code>ProjectName_DocumentName_vVersion_YYYY-MM-DD.json</code>.
-    </div>
-    <div id="formContainer"></div>
-  </div>
-</main>
-
+<header><h1>Permaculture Works Project Control Record v2.0</h1><p>Public-safe single-file form system. This repository copy uses placeholders only.</p></header>
+<main><nav id="nav"></nav><section><div class="toolbar"><button class="primary" id="save">Save JSON</button><label class="file-label" for="load">Load JSON</label><input id="load" type="file" accept=".json,application/json"><button id="print">Print</button><button class="warn" id="draft">Save Draft</button><button class="danger" id="clear">Clear</button><span id="status">Ready.</span></div><div class="notice"><b>Public safety:</b> do not commit real client names, addresses, coordinates, emails, or phone numbers. Store private records in ignored local folders.</div><div id="form"></div></section></main>
 <script>
-const OPTIONS = {
-  yn:["","Yes","No","Unknown","Not applicable"],
-  status:["","Open","In progress","Complete","Deferred","Needs review","Blocked","Closed"],
-  severity:["","Low","Medium","High","Critical"],
-  likelihood:["","Low","Medium","High"],
-  confidence:["","Low","Medium","High","Verified"],
-  suitability:["","Suitable","Suitable with limitations","Not suitable","Unknown"],
-  approval:["","Client approved","Designer approved","Both approved","Pending","Rejected"],
-  priority:["","Low","Medium","High","Critical"]
+const SAFE={project_name:'Example Homestead Project',project_id:'ANON-2026-001',client_name:'Client A',prepared_by:'Designer / Organization',project_address:'Example Site Address'};
+const FORMS={
+intake:['01 Project Intake & Goals','project_intake_client_goals',['client_contact_notes','goals','budget_timeline','maintenance_capacity','constraints','desired_outputs']],
+site:['02 Site Observation','site_observation_record',['visit_conditions','water_story','soil_notes','sun_shade_notes','vegetation_wildlife','infrastructure_access','photo_log','next_actions']],
+map:['03 Base Map Verification','base_map_verification',['map_source','boundary_status','scale_status','utilities_marked','limitations','required_corrections']],
+risk:['04 Constraints & Risk Register','constraints_risk_register',['known_constraints','risk_summary','control_measures','go_no_go_concerns']],
+decisions:['05 Design Decision Log','design_decision_log',['decision','reasoning','alternatives','evidence','approval_status']],
+scope:['06 Phase 1 Scope Freeze','phase_1_scope_freeze',['phase_goal','included_work','excluded_work','assumptions','client_responsibilities','change_order_rule']],
+materials:['07 Plant & Materials Specification','plant_materials_specification',['plant_list','materials_list','protection_materials','substitution_rules','procurement_status']],
+work:['08 Installation Work Order','installation_work_order',['work_date','crew','tools','task_sequence','quality_checkpoints','safety_notes']],
+daily:['09 Daily Installation Record','daily_installation_record',['weather','work_completed','materials_used','issues','client_notes','next_priorities']],
+deviation:['10 Deviation Field Change Log','deviation_field_change_log',['change_description','reason','impact','corrective_action','approval_status']],
+change:['11 Change Order Form','change_order_form',['requested_change','reason','cost_impact','schedule_impact','risk_impact','approval_notes']],
+walk:['12 Final Walkthrough Punch List','final_walkthrough_punch_list',['completion_summary','punch_list','remaining_concerns','acceptance_status']],
+care:['13 Client Maintenance Handoff','client_maintenance_handoff',['watering','weeding','mulch','protection_checks','warning_signs','follow_up_date']],
+follow:['14 Follow Up Inspection','follow_up_inspection',['plant_status','moisture_condition','weed_pressure','animal_damage','corrective_actions','future_opportunities']],
+close:['15 Project Closeout Report','project_closeout_report',['completed_scope','final_deliverables','open_items','feedback','lessons_learned','future_recommendations']]
 };
-
-const FORMS = {
-  intake:{
-    title:"01 · Project Intake & Client Goals Form", slug:"project_intake_client_goals", version:"2.0.0",
-    purpose:"Captures client goals, budget, maintenance capacity, project constraints, decision-makers, and desired outputs before design work begins.",
-    sections:[
-      {title:"1. Client Contact & Decision Authority", fields:[
-        ["client_phone","Client Phone"],["client_email","Client Email","email"],["primary_decision_maker","Primary Decision-Maker"],["other_decision_makers","Other Decision-Makers"],["approval_notes","Who must approve scope, budget, and installation decisions?","textarea","grid1"]
-      ]},
-      {title:"2. Project Goals", checks:["Food production / edible landscape","Beauty / aesthetics","Privacy / screening","Wildlife habitat","Pollinator support","Water infiltration / drainage improvement","Reduced mowing","Native plant restoration","Low-maintenance landscaping","Soil improvement","Shade / cooling","Outdoor living / paths / gathering space"], prefix:"goal", fields:[["top_three_goals","Top 3 goals in the client’s own words","textarea","grid1"],["success_criteria","What would make this project successful at 30 days, 1 year, and 5 years?","textarea","grid1"]]},
-      {title:"3. Budget, Timeline & Service Level", fields:[
-        ["budget_range","Budget Range"],["desired_start_date","Desired Start Date","date"],["desired_completion_date","Desired Completion Date","date"],["service_level","Requested Service Level","select:Consultation only|Design only|Design + field layout|Design + installation support|Design + full installation|Maintenance / follow-up support"],["urgency","Timeline Urgency","select:Flexible|Seasonal priority|Fast-track|Emergency / erosion / water issue"],["budget_notes","Budget or timeline constraints","textarea","grid1"]
-      ]},
-      {title:"4. Maintenance Capacity", checks:["Client can water weekly during establishment","Client can weed/mulch periodically","Client can prune shrubs/trees","Client can mow paths","Client wants lowest possible maintenance","Client may hire maintenance help","Deer/rabbit protection must be simple","No chemical maintenance preferred"], prefix:"maintenance", fields:[["maintenance_hours_week","Available Maintenance Hours per Week"],["watering_access","Water Access","select:Hose available|Irrigation available|Rainwater only|Water access uncertain"],["physical_limits","Physical Limits / Accessibility Concerns"],["maintenance_notes","Maintenance expectations and concerns","textarea","grid1"]]},
-      {title:"5. Site Concerns and Known Constraints", checks:["Wet spots / standing water","Erosion","Droughty soil","Compacted soil","Deer pressure","Rabbit/vole pressure","Invasive plants","Poor privacy","Neighbor runoff","Unknown utilities","Septic / well","HOA / municipal restrictions","Possible wetland / pond edge","Steep slope","Mower access issue","Drainage near house / foundation"], prefix:"concern", fields:[["site_concern_notes","Describe known site concerns","textarea","grid1"],["no_touch_zones","Areas the client does not want disturbed","textarea","grid1"]]},
-      {title:"6. Desired Outputs", checks:["Base map","Concept design","Phase 1 installation layout","Planting plan","Plant/material list","Swale/berm layout","Maintenance handoff","Implementation timeline","Budget estimate","Future phase roadmap","Printed client packet","JSON project record"], prefix:"output", fields:[["additional_outputs","Additional desired outputs","textarea","grid1"],["consultant_notes","Initial consultant notes, questions, and follow-up items","textarea","grid1"]]}
-    ]
-  },
-  siteObservation:{
-    title:"02 · Site Observation Record", slug:"site_observation_record", version:"2.0.0",
-    purpose:"Turns the site walk into documented field evidence: weather, soil, water, sun, vegetation, wildlife, infrastructure, access, photo log, and immediate implications.",
-    sections:[
-      {title:"1. Visit Conditions", fields:[["visit_date","Visit Date","date"],["arrival_time","Arrival Time","time"],["departure_time","Departure Time","time"],["current_weather","Current Weather"],["recent_rain","Recent Rain / Storm History"],["temperature","Approx. Temperature"],["visit_context","Site visit context and purpose","textarea","grid1"]]},
-      {title:"2. Water Movement", checks:["Visible flow paths","Standing water","Wet soil","Dry/high spots","Erosion channels","Sediment deposits","Roof runoff influence","Driveway runoff influence","Neighbor runoff influence","Pond/wetland edge influence","Water near structures","Safe overflow path observed"], prefix:"water", fields:[["water_story","Water story: where water enters, pools, moves, and exits","textarea","grid1"],["water_risks","Water-related risks or unknowns","textarea","grid1"]]},
-      {title:"3. Soil Observations", checks:["Sandy","Loamy","Clayey","Organic-rich","Compacted","Mottling / seasonal saturation signs","Good root penetration","Poor root penetration","Earthworms observed","Bare soil","Thatch layer","Disturbed fill suspected"], prefix:"soil", fields:[["soil_texture","Observed Soil Texture"],["soil_moisture","Soil Moisture"],["soil_compaction","Compaction"],["soil_test_notes","Test pits, infiltration observations, or soil notes","textarea","grid1"]]},
-      {title:"4. Sun, Shade, Wind, and Microclimates", fields:[["morning_sun","Morning Sun"],["midday_sun","Midday Sun"],["afternoon_sun","Afternoon Sun"],["shade_notes","Shade patterns and seasonal assumptions","textarea","grid1"],["wind_notes","Wind exposure, frost pockets, heat islands, sheltered areas","textarea","grid1"]]},
-      {title:"5. Existing Vegetation and Wildlife Pressure", fields:[["valued_plants","Valued existing plants to protect","textarea","grid1"],["problem_plants","Possible invasive/problem plants or removal areas","textarea","grid1"],["wildlife_pressure","Wildlife Pressure","select:Low|Moderate|High|Unknown"],["deer_browse","Deer Browse Risk","select:Low|Moderate|High|Unknown"],["wildlife_notes","Wildlife, pest, pollinator, bird, deer, rabbit, vole observations","textarea","grid1"]]},
-      {title:"6. Infrastructure, Access, and No-Dig Constraints", checks:["House/foundation buffer","Driveway / parking","Outbuilding / garage","Septic field","Well","Underground utilities","Overhead lines","Drain tile / culvert","Fence","Gate / machine access","Material staging area","No-dig zones marked","Mower path needed","Client access needs"], prefix:"infra", fields:[["infrastructure_notes","Infrastructure and access notes","textarea","grid1"],["utility_action","Utility locate / verification action needed","textarea","grid1"]]},
-      {title:"7. Photo and Evidence Log", table:{prefix:"photo", rows:10, cols:[["number","Photo #"],["location","Location / direction"],["shows","What it shows","textarea"],["implication","Design implication","textarea"]]}},
-      {title:"8. Immediate Design Implications", fields:[["design_implications","What did this visit confirm, reject, or change?","textarea","grid1"],["next_actions","Recommended next actions before design/scope freeze","textarea","grid1"]]}
-    ]
-  },
-  baseMap:{
-    title:"03 · Base Map Verification Checklist", slug:"base_map_verification", version:"2.0.0",
-    purpose:"Confirms whether a working map is accurate enough for concept design, field layout, installation, or earthwork planning.",
-    sections:[
-      {title:"1. Map Source and Identity", fields:[["map_source_type","Map Source Type","select:Drone orthophoto|Google Earth|GIS map|Survey|Hand sketch|Moasure|LiDAR|Client-provided map|Other"],["map_file_name","File / Source Name"],["map_date","Map Date","date"],["map_creator","Map Created By"],["map_coordinate_reference","Coordinate / Reference System, if known"],["map_notes","General map notes","textarea","grid1"]]},
-      {title:"2. Verification Checklist", checks:["Scale present or verified","North arrow present","Property boundary shown","Property boundary verified","Buildings/structures marked","Driveway/access marked","Existing trees/vegetation marked","Known utilities marked","Septic/well marked","Wet areas/drainage features marked","Contour/slope source noted","No-dig zones marked","Map limitations documented"], prefix:"mapcheck"},
-      {title:"3. Accuracy and Confidence", fields:[["boundary_status","Property Boundary Status","select:Verified|Approximate|Client-provided only|Unknown"],["scale_status","Scale Status","select:Verified|Approximate|Not shown|Unknown"],["slope_source","Slope / Contour Source"],["slope_confidence","Slope Confidence","select:Low|Medium|High|Verified"],["utility_confidence","Utility Confidence","select:Low|Medium|High|Verified|Not applicable"],["accuracy_limitations","Known accuracy limitations","textarea","grid1"],["required_corrections","Required corrections before use","textarea","grid1"]]},
-      {title:"4. Suitability for Use", table:{prefix:"suitability", rows:5, cols:[["use_case","Use Case"],["status","Suitability","select:Suitable|Suitable with limitations|Not suitable|Unknown"],["limitations","Limitations / conditions","textarea"]]}, help:"Suggested use cases: concept design, client discussion, field layout, installation, earthwork planning."},
-      {title:"5. Reviewer Sign-Off", fields:[["reviewer_name","Reviewer Name"],["review_date","Review Date","date"],["review_decision","Review Decision","select:Approved for current use|Approved with limitations|Needs correction before use|Rejected"],["reviewer_notes","Reviewer notes","textarea","grid1"]]}
-    ]
-  },
-  riskRegister:{
-    title:"04 · Constraints & Risk Register", slug:"constraints_risk_register", version:"2.0.0",
-    purpose:"Documents constraints, risks, controls, owners, and go/no-go concerns before design or installation proceeds.",
-    sections:[
-      {title:"1. Known Constraints", checks:["Utilities","Septic/well","Wetlands/pond edges","Drainage easements","Structures/foundations","Steep slopes","Soil compaction","Deer/wildlife pressure","Invasive plants","Access limitations","Budget limits","Labor limits","Seasonal/weather constraints","HOA/municipal restrictions","Neighbor runoff/property-line concern"], prefix:"constraint"},
-      {title:"2. Risk Register", table:{prefix:"risk", rows:12, cols:[["description","Risk description","textarea"],["category","Category","select:Safety|Hydrology|Ecology|Client|Budget|Schedule|Materials|Labor|Legal/regulatory|Quality|Other"],["severity","Severity","select:Low|Medium|High|Critical"],["likelihood","Likelihood","select:Low|Medium|High"],["control","Control measure","textarea"],["owner","Owner"],["status","Status","select:Open|In progress|Controlled|Deferred|Closed"],["followup","Follow-up date","date"]]}},
-      {title:"3. Pre-Mortem", fields:[["premortem_failure_modes","If this project failed, what probably caused it?","textarea","grid1"],["required_controls","Required controls before work begins","textarea","grid1"],["go_no_go_concerns","Go/no-go concerns before installation","textarea","grid1"]]},
-      {title:"4. Sign-Off", fields:[["risk_reviewer","Risk Reviewer"],["risk_review_date","Review Date","date"],["risk_approval_status","Risk Approval Status","select:Approved to proceed|Proceed with controls|Hold until resolved|Needs client decision"],["risk_notes","Review notes","textarea","grid1"]]}
-    ]
-  },
-  decisionLog:{
-    title:"05 · Design Decision Log", slug:"design_decision_log", version:"2.0.0",
-    purpose:"Records major design choices, evidence, alternatives, risks, and approval so the reasoning remains traceable.",
-    sections:[
-      {title:"1. Decision Log", table:{prefix:"decision", rows:12, cols:[["id","Decision ID"],["date","Date","date"],["decision","Decision","textarea"],["reason","Reason / design logic","textarea"],["alternatives","Alternatives considered","textarea"],["evidence","Evidence used","textarea"],["risks","Risks / tradeoffs","textarea"],["approved_by","Approved by"],["status","Status","select:Proposed|Approved|Rejected|Deferred|Revised"]]}},
-      {title:"2. Decision Categories", fields:[["water_access_decisions","Water/access decisions","textarea","grid1"],["planting_guild_decisions","Planting/guild decisions","textarea","grid1"],["materials_decisions","Materials decisions","textarea","grid1"],["scope_phase_decisions","Scope/phase decisions","textarea","grid1"],["future_phase_decisions","Deferred future-phase decisions","textarea","grid1"]]},
-      {title:"3. Final Design Direction", fields:[["design_direction_summary","Summary of approved design direction","textarea","grid1"],["decision_reviewer","Reviewer"],["decision_review_date","Review Date","date"]]}
-    ]
-  },
-  scopeFreeze:{
-    title:"06 · Phase 1 Scope Freeze Form", slug:"phase_1_scope_freeze", version:"2.0.0",
-    purpose:"Locks the executable Phase 1 scope before procurement or installation so changes can be controlled clearly.",
-    sections:[
-      {title:"1. Phase 1 Goal", fields:[["phase_goal","Phase 1 goal in plain English","textarea","grid1"],["scope_freeze_date","Scope Freeze Date","date"],["scope_freeze_status","Scope Status","select:Draft|Ready for approval|Approved|Revised|Superseded"]]},
-      {title:"2. Included Work Areas", table:{prefix:"area", rows:8, cols:[["name","Area / Zone"],["location","Location / map reference","textarea"],["included_work","Included work","textarea"],["approved","Approved?","select:Yes|No|Pending"]]}},
-      {title:"3. Included Elements and Quantities", table:{prefix:"qty", rows:10, cols:[["item","Item"],["quantity","Quantity"],["unit","Unit"],["notes","Notes","textarea"]]}, help:"Suggested items: trees, shrubs, perennials/plugs, seed, mulch, compost/topsoil, tree guards/cages, labor hours/days."},
-      {title:"4. Methods and Earthwork Limits", fields:[["installation_methods","Approved installation methods","textarea","grid1"],["earthwork_limits","Earthwork limitations and safety boundaries","textarea","grid1"],["layout_approval_notes","Field layout approval notes","textarea","grid1"]]},
-      {title:"5. Exclusions", checks:["Major drainage engineering","Permit handling","Wetland work","Pond excavation","Retaining walls","Utility relocation","Irrigation system installation","Fencing","Ongoing maintenance unless separately contracted","Additional areas outside approved layout","Plant survival guarantee","Long-term pest/deer management"], prefix:"exclusion", fields:[["custom_exclusions","Additional exclusions","textarea","grid1"]]},
-      {title:"6. Assumptions and Client Responsibilities", fields:[["assumptions","Assumptions this scope depends on","textarea","grid1"],["client_responsibilities","Client responsibilities","textarea","grid1"],["change_order_rule","Change-order rule","textarea","grid1"],["future_phase_parking_lot","Future phase parking lot","textarea","grid1"]]},
-      {title:"7. Final Read-Back and Signatures", fields:[["final_readback","Final read-back statement: what are we doing, what are we not doing, and what changes require approval?","textarea","grid1"],["client_signature_name","Client Signature Name"],["designer_signature_name","Designer Signature Name"],["signature_date","Signature Date","date"]]}
-    ]
-  },
-  materials:{
-    title:"07 · Plant & Materials Specification Sheet", slug:"plant_materials_specification", version:"2.0.0",
-    purpose:"Defines the plants, materials, sources, substitutions, protection systems, seed mixes, and installed inventory.",
-    sections:[
-      {title:"1. Plant List", table:{prefix:"plant", rows:15, cols:[["common","Common name"],["scientific","Scientific name"],["cultivar","Cultivar / variety"],["function","Function"],["qty","Quantity"],["size","Size"],["source","Source"],["sub_allowed","Substitution allowed?","select:Yes|No|With approval"],["notes","Notes","textarea"]]}},
-      {title:"2. Materials List", table:{prefix:"material", rows:12, cols:[["material","Material"],["qty","Quantity"],["unit","Unit"],["source","Source"],["purpose","Purpose"],["notes","Notes","textarea"]]}},
-      {title:"3. Protection and Hardgoods", checks:["Tree cages","Tree tubes","Stakes","Labels","Fencing","Rabbit guards","Mulch rings","Irrigation bags","Hose/sprinkler support","Erosion control fabric","Stone/log edging","Temporary flags/paint"], prefix:"protection", fields:[["protection_notes","Protection material details","textarea","grid1"]]},
-      {title:"4. Seed Mix Details", table:{prefix:"seed", rows:5, cols:[["supplier","Supplier"],["mix","Mix name"],["species","Species if known","textarea"],["area","Area covered"],["timing","Timing"],["notes","Notes","textarea"]]}},
-      {title:"5. Procurement and Substitution Rules", fields:[["substitution_rule","Substitution approval rule","textarea","grid1"],["procurement_status","Procurement status","textarea","grid1"],["final_inventory_notes","Final installed inventory notes","textarea","grid1"],["materials_reviewer","Reviewer"],["materials_review_date","Review Date","date"]]}
-    ]
-  },
-  workOrder:{
-    title:"08 · Installation Work Order", slug:"installation_work_order", version:"2.0.0",
-    purpose:"Turns the approved design into a field-executable task sequence with crew, tools, staging, quality checkpoints, and cleanup expectations.",
-    sections:[
-      {title:"1. Work Day Setup", fields:[["scheduled_date","Scheduled Work Date","date"],["scheduled_start","Scheduled Start Time","time"],["scheduled_end","Scheduled End Time","time"],["crew_members","Crew Members","textarea","grid1"],["site_access","Site access notes","textarea","grid1"],["material_staging","Material staging area","textarea","grid1"],["weather_constraints","Weather constraints","textarea","grid1"],["safety_notes","Safety notes","textarea","grid1"]]},
-      {title:"2. Tools and Equipment", checks:["Shovels","Rakes","Wheelbarrow","Mattock/pick","Auger","Laser level / A-frame","Tape measure","Flags/stakes/string","Utility locate confirmation","Pruners/loppers","Water source/hose","Mulch fork","PPE/gloves/eye protection","First aid kit"], prefix:"tool", fields:[["additional_tools","Additional tools/equipment needed","textarea","grid1"]]},
-      {title:"3. Task Sequence", table:{prefix:"task", rows:14, cols:[["step","Step #"],["task","Task","textarea"],["owner","Responsible person"],["estimate","Estimated time"],["checkpoint","Quality checkpoint","textarea"],["status","Status","select:Not started|In progress|Done|Blocked|Deferred"]]}},
-      {title:"4. Layout References and Standards", fields:[["map_reference","Map name/version or layout reference"],["field_markers","Flags/paint/stakes/string used","textarea","grid1"],["installation_standards","Installation standards: root flare, mulch spacing, watering-in, protection, cleanup","textarea","grid1"],["end_day_notes","End-of-day completion notes","textarea","grid1"],["crew_lead_signoff","Crew Lead Sign-Off Name"]]}
-    ]
-  },
-  dailyRecord:{
-    title:"09 · Daily Installation Record", slug:"daily_installation_record", version:"2.0.0",
-    purpose:"Tracks what happened each installation day: crew, time, weather, work completed, issues, client conversations, photos, and next priorities.",
-    sections:[
-      {title:"1. Daily Log Basics", fields:[["work_date","Work Date","date"],["crew","Crew","textarea","grid1"],["start_time","Start Time","time"],["end_time","End Time","time"],["weather","Weather"],["site_condition","Site condition / soil moisture"]]},
-      {title:"2. Work Completed", fields:[["work_completed","Work completed today","textarea","grid1"],["materials_used","Materials used","textarea","grid1"],["plants_installed","Plants installed","textarea","grid1"],["issues_encountered","Issues encountered","textarea","grid1"]]},
-      {title:"3. Communication and Change Control", fields:[["client_conversations","Client conversations / approvals","textarea","grid1"],["deviations_changes","Deviations or field changes","textarea","grid1"],["change_order_needed","Formal change order needed?","select:No|Yes|Maybe|Already completed"]]},
-      {title:"4. Evidence, Safety, and Next Steps", fields:[["photos_taken","Photos taken / photo numbers","textarea","grid1"],["safety_incidents","Safety incidents or near misses","textarea","grid1"],["next_day_priorities","Next-day priorities","textarea","grid1"],["crew_lead","Crew Lead"],["daily_signoff_date","Sign-Off Date","date"]]}
-    ]
-  },
-  deviation:{
-    title:"10 · Deviation / Field Change Log", slug:"deviation_field_change_log", version:"2.0.0",
-    purpose:"Captures plant substitutions, field surprises, weather delays, utility conflicts, layout changes, client requests, and corrective actions.",
-    sections:[
-      {title:"1. Deviation / Change Table", table:{prefix:"dev", rows:12, cols:[["date","Date","date"],["description","Description","textarea"],["category","Category","select:Plant unavailable|Soil condition different|Utility conflict|Weather delay|Client requested change|Layout change|Material substitution|Safety concern|Other"],["reason","Reason","textarea"],["design_impact","Impact on design","textarea"],["cost_impact","Impact on cost"],["timeline_impact","Impact on timeline"],["corrective_action","Corrective action","textarea"],["approved_by","Approved by"],["status","Status","select:Open|Approved|Rejected|Resolved|Needs change order"]]}},
-      {title:"2. Field Decision Notes", fields:[["field_decision_notes","Field decision notes","textarea","grid1"],["formal_change_order_required","Formal Change Order Required?","select:No|Yes|Maybe"],["client_acknowledgment","Client acknowledgment notes","textarea","grid1"],["designer_acknowledgment","Designer acknowledgment notes","textarea","grid1"]]}
-    ]
-  },
-  changeOrder:{
-    title:"11 · Change Order Form", slug:"change_order_form", version:"2.0.0",
-    purpose:"Documents client-approved changes after scope freeze, including added work, removed work, cost, timeline, and risk impact.",
-    sections:[
-      {title:"1. Change Request", fields:[["original_scope_reference","Original scope reference"],["requested_change","Requested change","textarea","grid1"],["reason_for_change","Reason for change","textarea","grid1"],["request_date","Request Date","date"],["requested_by","Requested By"]]},
-      {title:"2. Impact Summary", fields:[["added_work_areas","Added work areas","textarea","grid1"],["added_materials_plants","Added materials/plants","textarea","grid1"],["added_labor","Added labor"],["removed_work","Removed work, if any","textarea","grid1"],["added_cost","Added cost"],["added_time","Added time"],["schedule_impact","Schedule impact","textarea","grid1"],["risk_impact","Risk impact","textarea","grid1"],["payment_terms","Payment terms / approval note","textarea","grid1"]]},
-      {title:"3. Approval", fields:[["client_approval_name","Client Approval Name"],["designer_approval_name","Designer Approval Name"],["approval_date","Approval Date","date"],["change_status","Change Status","select:Draft|Approved|Rejected|Superseded"],["approval_notes","Approval notes","textarea","grid1"]]}
-    ]
-  },
-  walkthrough:{
-    title:"12 · Final Walkthrough & Punch List", slug:"final_walkthrough_punch_list", version:"2.0.0",
-    purpose:"Verifies installation completion, documents remaining punch-list items, records client acceptance, and schedules follow-up.",
-    sections:[
-      {title:"1. Walkthrough Details", fields:[["walkthrough_date","Walkthrough Date","date"],["walkthrough_time","Walkthrough Time","time"],["attendees","Attendees","textarea","grid1"],["completion_summary","Completion summary","textarea","grid1"]]},
-      {title:"2. Completion Checklist", checks:["Planting complete","Mulch complete","Watering demonstrated","Plant protection installed","No-mow areas explained","Paths/access explained","Cleanup complete","Client questions answered","Maintenance handoff delivered","Follow-up discussed","Final photos taken"], prefix:"complete"},
-      {title:"3. Punch List", table:{prefix:"punch", rows:10, cols:[["item","Punch-list item","textarea"],["owner","Responsible party"],["due","Due date","date"],["status","Status","select:Open|In progress|Complete|Deferred|Not needed"],["notes","Notes","textarea"]]}},
-      {title:"4. Acceptance and Follow-Up", fields:[["client_acceptance_notes","Client acceptance notes","textarea","grid1"],["remaining_concerns","Remaining concerns","textarea","grid1"],["followup_date","Follow-up Date","date"],["client_signature_name","Client Signature Name"],["designer_signature_name","Designer Signature Name"],["signature_date","Signature Date","date"]]}
-    ]
-  },
-  handoff:{
-    title:"13 · Client Maintenance Handoff", slug:"client_maintenance_handoff", version:"2.0.0",
-    purpose:"Transfers stewardship with practical watering, weeding, mulch, mowing, protection, normal stress, warning signs, and follow-up instructions.",
-    sections:[
-      {title:"1. Establishment Care Timeline", fields:[["first_48_hours","First 48 hours instructions","textarea","grid1"],["first_2_weeks","First 2 weeks instructions","textarea","grid1"],["first_30_days","First 30 days instructions","textarea","grid1"],["first_summer","First summer instructions","textarea","grid1"]]},
-      {title:"2. Routine Care", fields:[["watering_schedule","Watering schedule","textarea","grid1"],["weeding_instructions","Weeding instructions","textarea","grid1"],["mulch_care","Mulch care","textarea","grid1"],["mowing_no_mow_rules","Mowing / no-mow rules","textarea","grid1"],["deer_rabbit_checks","Deer/rabbit protection checks","textarea","grid1"]]},
-      {title:"3. Plant Stress and Warning Signs", fields:[["normal_transplant_shock","What normal transplant shock may look like","textarea","grid1"],["warning_signs","Warning signs requiring contact","textarea","grid1"],["what_not_to_do","What not to do","textarea","grid1"]]},
-      {title:"4. Responsibilities and Acknowledgment", fields:[["client_responsibilities_handoff","Client responsibilities","textarea","grid1"],["followup_date_handoff","Follow-up Date","date"],["contact_notes","Emergency/contact notes","textarea","grid1"],["client_ack_name","Client Acknowledgment Name"],["designer_ack_name","Designer Name"],["handoff_date","Handoff Date","date"]]}
-    ]
-  },
-  followup:{
-    title:"14 · 30-Day Follow-Up Inspection", slug:"thirty_day_follow_up", version:"2.0.0",
-    purpose:"Checks early establishment: survival, moisture, mulch, weeds, animal damage, erosion, watering compliance, and corrective actions.",
-    sections:[
-      {title:"1. Inspection Conditions", fields:[["inspection_date","Inspection Date","date"],["inspection_time","Inspection Time","time"],["inspector","Inspector"],["weather_recent_rain","Weather / recent rain","textarea","grid1"]]},
-      {title:"2. Establishment Status", fields:[["plant_survival_status","Plant survival status","textarea","grid1"],["moisture_condition","Moisture condition","select:Too dry|Adequate|Too wet|Mixed|Unknown"],["mulch_condition","Mulch condition","select:Good|Thin|Touching stems/trunks|Displaced|Needs repair|Unknown"],["weed_pressure","Weed pressure","select:Low|Moderate|High|Severe"],["animal_damage","Deer/rabbit/vole damage","textarea","grid1"],["erosion_drainage","Erosion or drainage issues","textarea","grid1"],["watering_compliance","Client watering compliance","select:Good|Partial|Poor|Unknown|Not applicable"]]},
-      {title:"3. Photo / Evidence Log", table:{prefix:"followphoto", rows:8, cols:[["number","Photo #"],["location","Location"],["finding","Finding","textarea"],["action","Recommended action","textarea"]]}},
-      {title:"4. Corrections and Opportunities", fields:[["corrective_actions","Corrective actions needed","textarea","grid1"],["replacement_recommendations","Replacement recommendations","textarea","grid1"],["future_phase_opportunities","Future phase opportunities","textarea","grid1"],["inspection_signoff","Inspector Sign-Off Name"],["inspection_signoff_date","Sign-Off Date","date"]]}
-    ]
-  },
-  closeout:{
-    title:"15 · Project Closeout Report", slug:"project_closeout_report", version:"2.0.0",
-    purpose:"Summarizes completed scope, deliverables, inventory, photos, deviations, client feedback, lessons learned, and future opportunities.",
-    sections:[
-      {title:"1. Final Project Summary", fields:[["final_project_summary","Final project summary","textarea","grid1"],["scope_completed","Scope completed","textarea","grid1"],["deliverables_provided","Deliverables provided","textarea","grid1"],["final_inventory_summary","Final plant/material inventory summary","textarea","grid1"]]},
-      {title:"2. Documentation and Controls", checks:["Final photos archived","JSON records saved","Base map/design files archived","Scope freeze saved","Materials sheet saved","Deviation log reviewed","Change orders reviewed","Maintenance handoff delivered","Follow-up scheduled or completed","Invoice/payment notes recorded"], prefix:"archive", fields:[["photos_documentation","Photos/documentation completed","textarea","grid1"],["open_items","Open items","textarea","grid1"],["deviation_change_summary","Deviations/change orders summary","textarea","grid1"]]},
-      {title:"3. Feedback and Lessons", fields:[["client_feedback","Client feedback","textarea","grid1"],["lessons_learned","Lessons learned","textarea","grid1"],["future_phase_recommendations","Future phase recommendations","textarea","grid1"],["final_invoice_payment_notes","Final invoice/payment notes","textarea","grid1"]]},
-      {title:"4. Closeout Sign-Off", fields:[["closeout_status","Closeout Status","select:Closed|Closed with open items|Deferred|Needs review"],["client_closeout_name","Client Closeout Name"],["designer_closeout_name","Designer Closeout Name"],["closeout_date","Closeout Date","date"],["closeout_notes","Closeout notes","textarea","grid1"]]}
-    ]
-  }
-};
-
-let currentForm = "intake";
-
-function todayISO(){ return new Date().toISOString().slice(0,10); }
-function cleanSlug(value){
-  return String(value||"").trim().toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"").slice(0,90)||"untitled";
-}
-function esc(s){ return String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-function renderNav(){
-  const nav = document.getElementById("nav");
-  nav.innerHTML = `<div class="nav-title">Project Control Forms</div>` + Object.entries(FORMS).map(([key,f]) =>
-    `<button class="nav-button ${key===currentForm?'active':''}" data-form="${key}">${f.title}<small>Functional · ${f.version}</small></button>`
-  ).join("");
-  nav.querySelectorAll(".nav-button").forEach(btn => btn.addEventListener("click", () => renderForm(btn.dataset.form)));
-}
-
-function fieldHtml(name,label,type="text",hint="",attrs=""){
-  if(type.startsWith("select:")){
-    const opts = type.slice(7).split("|");
-    return `<div><label for="${name}">${label}</label><select id="${name}" name="${name}"><option value="">Select...</option>${opts.map(o=>`<option>${esc(o)}</option>`).join("")}</select>${hint?`<div class="hint">${hint}</div>`:""}</div>`;
-  }
-  if(type==="textarea") return `<div><label for="${name}">${label}</label><textarea id="${name}" name="${name}" ${attrs}></textarea>${hint?`<div class="hint">${hint}</div>`:""}</div>`;
-  return `<div><label for="${name}">${label}</label><input id="${name}" name="${name}" type="${type}" ${attrs}/>${hint?`<div class="hint">${hint}</div>`:""}</div>`;
-}
-function metaHtml(formKey){
-  const f=FORMS[formKey];
-  return `<div class="form-meta">
-    ${fieldHtml("project_name","Project Name","text","Used in exported filename.",'placeholder="Example: Frank Kruzel Swale Project"')}
-    ${fieldHtml("project_id","Project ID / Client Code","text","Optional internal code.",'placeholder="Example: KRZL-2026-001"')}
-    ${fieldHtml("document_name","Document Name","text","Required for naming convention.",`value="${esc(f.slug)}"`)}
-    ${fieldHtml("document_version","Version Number","text","Required for naming convention.",`value="${esc(f.version)}"`)}
-    ${fieldHtml("client_name","Client Name","text","",'placeholder="Client full name"')}
-    ${fieldHtml("prepared_by","Prepared By","text","",'placeholder="Dillon / Permaculture Works LLC"')}
-    ${fieldHtml("project_address","Project Address","text","",'placeholder="Street, city, state"')}
-    ${fieldHtml("date_prepared","Date Prepared","date","",`value="${todayISO()}"`)}
-  </div>
-  <div><label>Generated JSON Filename Preview</label><div class="filename-preview" id="filenamePreview"></div></div>`;
-}
-function checkboxGrid(items,prefix){
-  return `<div class="check-grid">${items.map((item,i)=>`<label class="check"><input type="checkbox" name="${prefix}_${i+1}" value="yes"><span>${esc(item)}</span></label>`).join("")}</div>`;
-}
-function tableHtml(t){
-  const headers = t.cols.map(c=>`<th>${esc(c[1])}</th>`).join("");
-  let rows="";
-  for(let i=1;i<=t.rows;i++){
-    rows += "<tr>" + t.cols.map(c=>{
-      const name = `${t.prefix}_${i}_${c[0]}`;
-      const type = c[2] || "text";
-      if(type==="textarea") return `<td><textarea name="${name}" placeholder="${esc(c[1])}"></textarea></td>`;
-      if(type.startsWith("select:")){
-        const opts=type.slice(7).split("|");
-        return `<td><select name="${name}"><option value="">Select...</option>${opts.map(o=>`<option>${esc(o)}</option>`).join("")}</select></td>`;
-      }
-      return `<td><input name="${name}" type="${type}" placeholder="${esc(c[1])}" /></td>`;
-    }).join("") + "</tr>";
-  }
-  return `${t.help?`<div class="help">${esc(t.help)}</div>`:""}<table><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
-}
-function renderSection(section, idx){
-  let html=`<section class="form-section"><h3>${esc(section.title)}</h3>`;
-  if(section.help) html += `<div class="help">${esc(section.help)}</div>`;
-  if(section.checks) html += checkboxGrid(section.checks, section.prefix || `section_${idx}`);
-  if(section.fields){
-    let gridOpen=false;
-    section.fields.forEach(f=>{
-      const [name,label,type="text",layout=""] = f;
-      if(layout==="grid1"){
-        if(gridOpen){ html += `</div>`; gridOpen=false; }
-        html += fieldHtml(name,label,type);
-      } else {
-        if(!gridOpen){ html += `<div class="grid-2">`; gridOpen=true; }
-        html += fieldHtml(name,label,type);
-      }
-    });
-    if(gridOpen) html += `</div>`;
-  }
-  if(section.table) html += tableHtml(section.table);
-  html += `</section>`;
-  return html;
-}
-function renderForm(formKey){
-  currentForm=formKey;
-  const f=FORMS[formKey];
-  const container=document.getElementById("formContainer");
-  container.innerHTML = `<div class="card"><h2>${esc(f.title)}</h2><p>${esc(f.purpose)}</p>${metaHtml(formKey)}${f.sections.map(renderSection).join("")}</div>`;
-  renderNav();
-  attachFilenamePreview();
-  loadBrowserDraftIfExists(formKey);
-  setStatus(`Opened ${f.title}.`);
-}
-function getRoot(){ return document.getElementById("formContainer"); }
-function collectData(){
-  const values={};
-  getRoot().querySelectorAll("input, textarea, select").forEach(el=>{
-    if(!el.name) return;
-    values[el.name] = el.type==="checkbox" ? el.checked : el.value;
-  });
-  return {app:"Permaculture Works Project Control Record", app_version:"2.0.0", form_key:currentForm, form_title:FORMS[currentForm].title, form_slug:FORMS[currentForm].slug, saved_at:new Date().toISOString(), values};
-}
-function fillData(payload){
-  if(!payload || !payload.values) return;
-  if(payload.form_key && FORMS[payload.form_key] && payload.form_key!==currentForm) renderForm(payload.form_key);
-  Object.entries(payload.values).forEach(([name,value])=>{
-    const el=getRoot().querySelector(`[name="${CSS.escape(name)}"]`);
-    if(!el) return;
-    if(el.type==="checkbox") el.checked=Boolean(value); else el.value=value;
-  });
-  updateFilenamePreview();
-}
-function generateFilename(){
-  const v=collectData().values;
-  const project=cleanSlug(v.project_name || v.client_name || "project");
-  const doc=cleanSlug(v.document_name || FORMS[currentForm].slug);
-  const version=cleanSlug(v.document_version || FORMS[currentForm].version).replace(/^v/,"");
-  const date=v.date_prepared || todayISO();
-  return `${project}_${doc}_v${version}_${date}.json`;
-}
-function saveJSON(){
-  const payload=collectData();
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
-  const a=document.createElement("a");
-  a.href=URL.createObjectURL(blob); a.download=generateFilename(); document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
-  setStatus(`Saved ${a.download}`);
-}
-function browserKey(formKey=currentForm){ return `pw_project_control_record_v2_${formKey}`; }
-function saveBrowserDraft(){ localStorage.setItem(browserKey(), JSON.stringify(collectData())); setStatus(`Browser draft saved for ${FORMS[currentForm].title}.`); }
-function loadBrowserDraftIfExists(formKey){
-  const raw=localStorage.getItem(browserKey(formKey)); if(!raw) return;
-  try{ fillData(JSON.parse(raw)); setStatus(`Loaded browser draft for ${FORMS[formKey].title}.`); }catch(e){ console.warn(e); }
-}
-function clearCurrentForm(){
-  if(!confirm("Clear all visible fields in the current form? This does not delete saved JSON files.")) return;
-  getRoot().querySelectorAll("input, textarea, select").forEach(el=>{
-    if(el.type==="checkbox") el.checked=false;
-    else if(el.name==="document_name") el.value=FORMS[currentForm].slug;
-    else if(el.name==="document_version") el.value=FORMS[currentForm].version;
-    else if(el.name==="date_prepared") el.value=todayISO();
-    else el.value="";
-  });
-  updateFilenamePreview(); setStatus("Current form cleared.");
-}
-function attachFilenamePreview(){
-  getRoot().querySelectorAll("input, textarea, select").forEach(el=>{
-    el.addEventListener("input", updateFilenamePreview);
-    el.addEventListener("change", updateFilenamePreview);
-  });
-  updateFilenamePreview();
-}
-function updateFilenamePreview(){ const p=document.getElementById("filenamePreview"); if(p) p.textContent=generateFilename(); }
-function setStatus(msg){ document.getElementById("status").textContent=msg; }
-
-document.getElementById("saveJsonBtn").addEventListener("click", saveJSON);
-document.getElementById("saveBrowserBtn").addEventListener("click", saveBrowserDraft);
-document.getElementById("clearFormBtn").addEventListener("click", clearCurrentForm);
-document.getElementById("printBtn").addEventListener("click", () => window.print());
-document.getElementById("loadJsonInput").addEventListener("change", async event=>{
-  const file=event.target.files[0]; if(!file) return;
-  try{ const payload=JSON.parse(await file.text()); fillData(payload); setStatus(`Loaded ${file.name}`); }
-  catch(e){ alert("Could not load JSON file. Make sure it was exported from this form system."); console.error(e); }
-  finally{ event.target.value=""; }
-});
-renderNav();
-renderForm(currentForm);
+let key=Object.keys(FORMS)[0];let store={};
+function today(){return new Date().toISOString().slice(0,10)}function slug(x){return String(x||'project').toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'')||'project'}
+function vals(){store[key]=store[key]||{};let f=FORMS[key];Object.assign(store[key],Object.fromEntries(Object.entries(SAFE).filter(([k])=>store[key][k]==null)));store[key].document_name??=f[1];store[key].document_version??='2.0.0';store[key].date_prepared??=today();return store[key]}
+function esc(s){return String(s??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]))}
+function renderNav(){nav.innerHTML='<h3>Forms</h3>'+Object.entries(FORMS).map(([k,f])=>`<button class="nav-button ${k===key?'active':''}" onclick="capture();key='${k}';render()">${f[0]}</button>`).join('')}
+function input(n,label,type='text'){let v=vals()[n]||'';return `<label>${label}<${type==='textarea'?'textarea':'input'} data-name="${n}" ${type==='textarea'?'':`type="${type}" value="${esc(v)}"`}>${type==='textarea'?esc(v):''}${type==='textarea'?'</textarea>':''}</label>`}
+function capture(){document.querySelectorAll('[data-name]').forEach(e=>{store[key][e.dataset.name]=e.value})}
+function record(){capture();let f=FORMS[key];return {app:'Permaculture Works Project Control Record',app_version:'2.0.0-public-safe',form_key:key,form_title:f[0],form_slug:f[1],saved_at:new Date().toISOString(),values:vals()}}
+function filename(){let r=record(),v=r.values;return `${slug(v.project_name)}_${slug(v.document_name)}_v${slug(v.document_version)}_${v.date_prepared}.json`}
+function render(){renderNav();let f=FORMS[key];let meta=['project_name','project_id','client_name','prepared_by','project_address','date_prepared','document_name','document_version'];form.innerHTML=`<article class="card"><h2>${f[0]}</h2><p>Use public-safe placeholders in committed examples. Replace locally only for private work.</p><div class="grid">${meta.map(m=>input(m,m.replaceAll('_',' '),m==='date_prepared'?'date':'text')).join('')}</div><h3>Form fields</h3>${f[2].map(n=>input(n,n.replaceAll('_',' '),'textarea')).join('')}<div class="file">${filename()}</div></article>`;document.querySelectorAll('[data-name]').forEach(e=>e.addEventListener('input',()=>{capture();render()}))}
+function save(){let r=record();let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(r,null,2)],{type:'application/json'}));a.download=filename();a.click();URL.revokeObjectURL(a.href);status.textContent='JSON exported.'}
+function saveDraft(){capture();localStorage.setItem('pcr_v2_public_safe',JSON.stringify({key,store}));status.textContent='Draft saved.'}
+function loadDraft(){try{let raw=localStorage.getItem('pcr_v2_public_safe');if(raw){let d=JSON.parse(raw);key=d.key||key;store=d.store||{}}}catch(e){}}
+function clearForm(){if(confirm('Clear current form?')){store[key]={};render()}}
+function loadFile(file){let reader=new FileReader();reader.onload=()=>{try{let r=JSON.parse(reader.result);key=FORMS[r.form_key]?r.form_key:key;store[key]=r.values||{};render();status.textContent='JSON loaded.'}catch(e){status.textContent='Could not load JSON.'}};reader.readAsText(file)}
+save.onclick=save;draft.onclick=saveDraft;clear.onclick=clearForm;print.onclick=()=>window.print();load.onchange=e=>{if(e.target.files[0])loadFile(e.target.files[0])};loadDraft();render();
 </script>
 </body>
 </html>
