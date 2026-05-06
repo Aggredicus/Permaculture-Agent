@@ -73,18 +73,30 @@ This layer allows agents to:
 
 ---
 
-## JEPA-Inspired Site World Model Upgrade
-This repository now includes a lean JEPA-inspired Site World Model scaffold for safer, evidence-grounded permaculture design assistance.
+## JEPA-Inspired Site World Model v1.0
+This repository includes a lean JEPA-inspired Site World Model subsystem for safer, evidence-grounded permaculture design assistance.
 
-This is **not** a trained neural JEPA model. It is a structured reasoning architecture that applies the JEPA pattern of predicting missing or future site-state representations from partial context using JSON, GraphML-oriented ontology rules, agent roles, workflows, safety gates, and field verification loops.
+This is **not** a trained neural JEPA model. It is a structured reasoning architecture that applies the JEPA pattern of predicting missing or future site-state representations from partial context using JSON, GraphML-oriented ontology rules, agent roles, workflows, safety gates, privacy scanning, automated tests, CI, and field verification loops.
 
-Core flow:
+### What it does
 
 ```text
 Client/site intake -> observations -> predictions -> risks -> verification tasks -> candidate interventions -> design scenarios -> generated GraphML/checklist/report -> field verification -> updated model
 ```
 
-Primary files:
+The JSON bundle is the editable source of truth. Generated GraphML, checklists, reports, and manifests are reproducible working artifacts.
+
+### What it does not do
+
+It does not approve real-world work, replace field observation, make legal or engineering determinations, certify wetlands, guarantee plant survival, or train a neural JEPA model.
+
+### Public and private data rule
+
+- `examples/` is for public-safe anonymized examples.
+- `project_records/` and `private_records/` are for local private work and are ignored by Git.
+- Run `privacy-scan` before public commits.
+
+### Primary files
 - `docs/JEPA_SITE_WORLD_MODEL_UPGRADE.md`
 - `agents/SITE_WORLD_MODEL_AGENT_TEAM.md`
 - `ontology/site_world_model_ontology.md`
@@ -94,18 +106,25 @@ Primary files:
 - `examples/anonymized_site_001/site_world_model_bundle.json`
 - `scripts/site_world_model_tools.py`
 - `tests/SITE_WORLD_MODEL_TESTS.md`
+- `tests/test_site_world_model_tools.py`
+- `.github/workflows/site-world-model-ci.yml`
 
-Validation and generation commands:
+### Quickstart
 
 ```bash
 python scripts/site_world_model_tools.py validate examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py privacy-scan .
 python scripts/site_world_model_tools.py summarize examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py scenario-review examples/anonymized_site_001/site_world_model_bundle.json
 python scripts/site_world_model_tools.py graphml examples/anonymized_site_001/site_world_model_bundle.json
 python scripts/site_world_model_tools.py checklist examples/anonymized_site_001/site_world_model_bundle.json
 python scripts/site_world_model_tools.py report examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py manifest examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py update-verification examples/anonymized_site_001/site_world_model_bundle.json --id pred_001 --status verified --note "Example verification update." --out /tmp/site_world_model_bundle.updated.json
+python -m unittest discover -s tests -p "test_*.py"
 ```
 
-Generated outputs such as `site_model.generated.graphml`, `field_visit_checklist.generated.md`, and `client_report.generated.md` are local working artifacts and should not be committed unless intentionally promoted to reviewed examples.
+Generated outputs such as `site_model.generated.graphml`, `field_visit_checklist.generated.md`, `client_report.generated.md`, `site_model_manifest.generated.json`, and `*.updated.json` are local working artifacts and should not be committed unless intentionally promoted to reviewed examples.
 
 Safety principle:
 
@@ -140,36 +159,12 @@ Before scaling, the project should prove value through one or more small, useful
 ---
 
 ## Recommended Next Steps
-A sensible initial sequence is:
+A sensible next sequence is:
 
-1. Clarify the first concrete workflow
-   - example: site observation assistant
-   - example: phased design planner
-   - example: species/guild reasoning engine
-   - example: map/data workflow tool
-
-2. Choose the initial runtime stack
-   - TypeScript / Node
-   - Python
-   - hybrid web app
-   - local-first toolchain
-
-3. Define core entities
-   - site
-   - zone
-   - sector
-   - species
-   - guild
-   - intervention
-   - observation
-   - task
-   - scenario
-
-4. Create the first minimal implementation slice
-   - small but real
-   - testable
-   - understandable
-   - useful to an actual permaculture workflow
+1. Test the Site World Model subsystem against additional anonymized examples.
+2. Build an importer from approved/anonymized HTML form JSON into the Site World Model bundle.
+3. Improve client-report formatting and optional export formats.
+4. Add richer GraphML ontology support only after the current workflow proves useful.
 
 ---
 
