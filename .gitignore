@@ -10,6 +10,13 @@
 site_model.generated.graphml
 field_visit_checklist.generated.md
 client_report.generated.md
+site_model_manifest.generated.json
+*.updated.json
+
+# Private/local project records - do not commit real client/site data
+project_records/
+private_records/
+*.private.json
 
 # The following sections constitute a list of Office file extensions that support VBA.
 # If you want to exclude Office files from your repo, uncomment the corresponding file extensions.
