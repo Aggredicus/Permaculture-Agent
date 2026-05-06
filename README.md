@@ -73,6 +73,46 @@ This layer allows agents to:
 
 ---
 
+## JEPA-Inspired Site World Model Upgrade
+This repository now includes a lean JEPA-inspired Site World Model scaffold for safer, evidence-grounded permaculture design assistance.
+
+This is **not** a trained neural JEPA model. It is a structured reasoning architecture that applies the JEPA pattern of predicting missing or future site-state representations from partial context using JSON, GraphML-oriented ontology rules, agent roles, workflows, safety gates, and field verification loops.
+
+Core flow:
+
+```text
+Client/site intake -> observations -> predictions -> risks -> verification tasks -> candidate interventions -> design scenarios -> generated GraphML/checklist/report -> field verification -> updated model
+```
+
+Primary files:
+- `docs/JEPA_SITE_WORLD_MODEL_UPGRADE.md`
+- `agents/SITE_WORLD_MODEL_AGENT_TEAM.md`
+- `ontology/site_world_model_ontology.md`
+- `workflows/SITE_WORLD_MODEL_WORKFLOWS.md`
+- `prompts/site_world_model_prompts.md`
+- `schemas/site_world_model.schema.json`
+- `examples/anonymized_site_001/site_world_model_bundle.json`
+- `scripts/site_world_model_tools.py`
+- `tests/SITE_WORLD_MODEL_TESTS.md`
+
+Validation and generation commands:
+
+```bash
+python scripts/site_world_model_tools.py validate examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py summarize examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py graphml examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py checklist examples/anonymized_site_001/site_world_model_bundle.json
+python scripts/site_world_model_tools.py report examples/anonymized_site_001/site_world_model_bundle.json
+```
+
+Generated outputs such as `site_model.generated.graphml`, `field_visit_checklist.generated.md`, and `client_report.generated.md` are local working artifacts and should not be committed unless intentionally promoted to reviewed examples.
+
+Safety principle:
+
+> Predictions are never facts. Every inferred condition, future state, risk, or intervention should preserve evidence, confidence, verification status, and field-review requirements.
+
+---
+
 ## Working Philosophy
 `Permaculture-Agent` is founded on several principles:
 - human cognition should remain first-class
@@ -85,7 +125,7 @@ This layer allows agents to:
 ---
 
 ## Current State
-At the moment, this repository is effectively a greenfield project.
+At the moment, this repository is effectively a greenfield project with one early practical workflow scaffold: the JEPA-inspired Site World Model.
 
 That means the current priority is to define:
 - mission
@@ -201,4 +241,4 @@ Add a license once the project direction is confirmed.
 
 ## Status
 Foundational scaffold established.
-Implementation direction still open.
+Implementation direction now includes the lean JEPA-inspired Site World Model as the first practical evidence-and-verification workflow.
