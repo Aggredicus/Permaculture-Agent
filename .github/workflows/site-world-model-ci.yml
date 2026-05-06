@@ -1,0 +1,38 @@
+name: Site World Model CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  site-world-model:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate example bundle
+        run: python scripts/site_world_model_tools.py validate examples/anonymized_site_001/site_world_model_bundle.json
+
+      - name: Run privacy scan
+        run: python scripts/site_world_model_tools.py privacy-scan .
+
+      - name: Generate GraphML
+        run: python scripts/site_world_model_tools.py graphml examples/anonymized_site_001/site_world_model_bundle.json
+
+      - name: Generate verification checklist
+        run: python scripts/site_world_model_tools.py checklist examples/anonymized_site_001/site_world_model_bundle.json
+
+      - name: Generate preliminary client report
+        run: python scripts/site_world_model_tools.py report examples/anonymized_site_001/site_world_model_bundle.json
+
+      - name: Generate manifest
+        run: python scripts/site_world_model_tools.py manifest examples/anonymized_site_001/site_world_model_bundle.json
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -p "test_*.py"
